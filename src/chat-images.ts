@@ -1,11 +1,10 @@
-import './styles/chat-images.scss'
 import {initUploadArea} from './scripts/components/UploadArea'
 import {initUploadButton} from './scripts/components/UploadButton'
 import {initChatSidebar} from './scripts/components/ChatSidebar'
 import {initChatMessage} from './scripts/components/ChatMessage'
 import {find} from './scripts/utils/JqueryWrappers'
-import {processMessage} from './scripts/processors/MessageProcessor'
 import {createUploadFolder, getSettings, registerSetting} from './scripts/utils/Settings'
+import {ChatResolver} from './scripts/components/ChatResolver'
 
 const registerSettings = () => {
   const settings = getSettings()
@@ -18,29 +17,45 @@ Hooks.once('init', async () => {
 })
 
 Hooks.on('renderSidebarTab', (_0: never, sidebar: JQuery) => {
-  const sidebarElement: HTMLElement | null = sidebar[0]
-  if (!sidebarElement) return
-
+  const sidebarElement: HTMLElement | null | undefined = sidebar[0]
+  if (!sidebarElement) {
+    return
+  }
   const hasChatElement = sidebarElement.querySelector('#chat-message')
-  if (!hasChatElement) return
-
+  if (!hasChatElement) {
+    return
+  }
   initUploadArea(sidebar)
   initUploadButton(sidebar)
   initChatSidebar(sidebar)
 })
 
-Hooks.on('renderChatMessage', (_0: never, chatMessage: JQuery) => {
-  const ciMessage = find('.ci-message-image', chatMessage)
-  if (!ciMessage[0]) return
+Hooks.once('setup', () => {
+  Hooks.on('chatMessage', (chatMessage:any, message: string, messageData: any) => {
+    ChatResolver.onChatMessage(chatMessage, message, messageData)
+  })
 
-  initChatMessage(chatMessage)
+  Hooks.on('preCreateChatMessage', (chatMessage: any, message: never, messageData: any) => {
+    const processedMessage: string | null = ChatResolver.onPreCreateChatMessage(chatMessage, message, messageData)
+    // const processedMessage: string = processMessage(chatMessage.content)
+    if (processedMessage == null || chatMessage.content === processedMessage) {
+      return
+    }
+    // chatMessage.content = processedMessage
+    // chatMessage._source.content = processedMessage
+    // messageOptions.chatBubble = false
+  })
+
+  Hooks.on('renderChatMessage', (chatMessage:any, html: JQuery, messageData: any) => {
+    ChatResolver.onRenderChatMessage(chatMessage, html, messageData)
+    const ciMessage = find('.chat-images-image', html)
+    if (!ciMessage[0]) {
+      return
+    }
+    initChatMessage(html)
+  })
 })
 
-Hooks.on('preCreateChatMessage', (chatMessage: any, userOptions: never, messageOptions: any) => {
-  const processedMessage: string = processMessage(chatMessage.content)
-  if (chatMessage.content === processedMessage) return
-
-  chatMessage.content = processedMessage
-  chatMessage._source.content = processedMessage
-  messageOptions.chatBubble = false
-})
+// Hooks.on('chatMessage', ChatResolver.onChatMessage);
+// Hooks.on('preCreateChatMessage', ChatResolver.onPreCreateChatMessage);
+// Hooks.on('renderChatMessage', ChatResolver.onRenderChatMessage);

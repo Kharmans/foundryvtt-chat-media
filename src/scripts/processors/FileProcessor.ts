@@ -1,6 +1,6 @@
-import {ORIGIN_FOLDER, randomString, t, userCanUpload} from '../utils/Utils'
+import {ORIGIN_FOLDER, randomString, i18n, userCanUpload} from '../utils/Utils'
 import {addClass, append, create, find, on, remove, removeClass} from '../utils/JqueryWrappers'
-import imageCompression from 'browser-image-compression'
+import imageCompression from '../browser-image-compression/browser-image-compression.mjs'
 import {getUploadingStates} from '../components/Loader'
 import {getSetting} from '../utils/Settings'
 
@@ -23,7 +23,7 @@ const isFileImage = (file: File | DataTransferItem) => file.type && file.type.st
 const createImagePreview = ({imageSrc, id}: SaveValueType): JQuery => create(
     `<div id="${id}" class="ci-upload-area-image">
             <i class="ci-remove-image-icon fa-regular fa-circle-xmark"></i>
-            <img class="ci-image-preview" src="${imageSrc}" alt="${t('unableToLoadImage')}"/>
+            <img class="ci-image-preview" src="${imageSrc}" alt="${i18n('unableToLoadImage')}"/>
         </div>`)
 
 const addEventToRemoveButton = (removeButton: JQuery, saveValue: SaveValueType, uploadArea: JQuery) => {
@@ -97,9 +97,10 @@ const imagesFileReaderHandler = (file: File, sidebar: JQuery) => async (evt: Eve
 
 export const processImageFiles = (files: FileList | File[], sidebar: JQuery) => {
   for (let i = 0; i < files.length; i++) {
-    const file: File = files[i]
-    if (!isFileImage(file)) continue
-
+    const file: File = <File>files[i]
+    if (!isFileImage(file)) {
+      continue
+    }
     const reader: FileReader = new FileReader()
     reader.addEventListener('load', imagesFileReaderHandler(file, sidebar))
     reader.readAsDataURL(file)
@@ -122,7 +123,7 @@ export const processDropAndPasteImages = (eventData: DataTransfer, sidebar: JQue
   const urlsFromEventDataHandler = async (urls: string[]) => {
     for (let i = 0; i < urls.length; i++) {
       const url = urls[i]
-      const saveValue = {imageSrc: url, id: randomString()}
+      const saveValue = <SaveValueType>{imageSrc: url, id: randomString()}
       await addImageToQueue(saveValue, sidebar)
     }
   }
@@ -132,9 +133,9 @@ export const processDropAndPasteImages = (eventData: DataTransfer, sidebar: JQue
 
   const extractFilesFromEventData = (eventData: DataTransfer): File[] => {
     const items: DataTransferItemList = eventData.items
-    const files = []
+    const files = <any[]>[]
     for (let i = 0; i < items.length; i++) {
-      const item: DataTransferItem = items[i]
+      const item: DataTransferItem = <DataTransferItem>items[i]
       if (!isFileImage(item)) continue
 
       const file = item.getAsFile()

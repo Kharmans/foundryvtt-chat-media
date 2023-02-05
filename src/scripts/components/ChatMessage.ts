@@ -1,7 +1,7 @@
 import {find, on} from '../utils/JqueryWrappers'
 
-export const initChatMessage = (chatMessage: JQuery) => {
-  const images = find('.ci-message-image img', chatMessage)
+export const initChatMessage = (html: JQuery) => {
+  const images = find('.chat-images-image img', html)
   if (!images[0]) return
 
   const clickImageHandle = (evt: Event) => {

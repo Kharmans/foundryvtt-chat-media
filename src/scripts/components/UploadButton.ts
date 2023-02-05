@@ -1,9 +1,9 @@
 import {addClass, append, create, find, on, trigger} from '../utils/JqueryWrappers'
-import {t, userCanUpload} from '../utils/Utils'
+import {i18n, userCanUpload} from '../utils/Utils'
 import {processImageFiles} from '../processors/FileProcessor'
 import {getSetting} from '../utils/Settings'
 
-const createUploadButton = (): JQuery => create(`<a id="ci-upload-image" title="${t('uploadButtonTitle')}"><i class="fas fa-images"></i></a>`)
+const createUploadButton = (): JQuery => create(`<a id="ci-upload-image" title="${i18n('uploadButtonTitle')}"><i class="fas fa-images"></i></a>`)
 
 const createHiddenUploadInput = (): JQuery => create(`<input type="file" multiple accept="image/*" id="ci-upload-image-hidden-input">`)
 

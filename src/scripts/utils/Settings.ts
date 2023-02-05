@@ -1,4 +1,4 @@
-import {ORIGIN_FOLDER, t} from './Utils'
+import {ORIGIN_FOLDER, i18n} from './Utils'
 
 
 export const createUploadFolder = async (uploadLocation?: string) => {
@@ -19,8 +19,8 @@ export const getSettings = () => [
   {
     key: 'uploadButton',
     options: {
-      name: t('uploadButton'),
-      hint: t('uploadButtonHint'),
+      name: i18n('uploadButton'),
+      hint: i18n('uploadButtonHint'),
       type: Boolean,
       default: true,
       config: true,
@@ -30,8 +30,8 @@ export const getSettings = () => [
   {
     key: 'uploadLocation',
     options: {
-      name: t('uploadLocation'),
-      hint: t('uploadLocationHint'),
+      name: i18n('uploadLocation'),
+      hint: i18n('uploadLocationHint'),
       type: String,
       default: 'uploaded-chat-images',
       scope: 'world',

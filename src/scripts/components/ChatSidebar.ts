@@ -1,19 +1,19 @@
 import {on} from '../utils/JqueryWrappers'
 import {getImageQueue, processDropAndPasteImages, removeAllFromQueue, SaveValueType} from '../processors/FileProcessor'
-import {t} from '../utils/Utils'
+import {i18n} from '../utils/Utils'
 import {getUploadingStates} from './Loader'
 
 let hookIsHandlingTheMessage = false
 let eventIsHandlingTheMessage = false
 
-const imageTemplate = (imageProps: SaveValueType): string => `<div class="ci-message-image"><img src="${imageProps.imageSrc}" alt="${imageProps.name || t('unableToLoadImage')}"></div>`
+const imageTemplate = (imageProps: SaveValueType): string => `<div class="chat-images-image"><img src="${imageProps.imageSrc}" alt="${imageProps.name || i18n('unableToLoadImage')}"></div>`
 
 const messageTemplate = (imageQueue: SaveValueType[]) => {
   const imageTemplates: string[] = imageQueue.map((imageProps: SaveValueType): string => imageTemplate(imageProps))
   return `<div class="ci-message">${imageTemplates.join('')}</div>`
 }
 
-const preCreateChatMessageHandler = (sidebar: JQuery) => (chatMessage: any, userOptions: never, messageOptions: any) => {
+export const preCreateChatMessageHandler = (sidebar: JQuery) => (chatMessage: any, userOptions: never, messageOptions: any) => {
   if (eventIsHandlingTheMessage) return
 
   hookIsHandlingTheMessage = true

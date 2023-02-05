@@ -1,4 +1,5 @@
 {
+  "id": "chat-images",
   "name": "chat-images",
   "title": "Chat Images",
   "description": "Extends chat functionality with image support.",
@@ -15,7 +16,9 @@
     "chat-images.js"
   ],
   "styles": [
-    "chat-images.css"
+    "styles/chat-images.css",
+    "styles/chat-message.css",
+    "styles/spinner.css"
   ],
   "compatibility": {
     "minimum": "10",
