@@ -2,6 +2,7 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-tabs */
 
+import { getVideoType } from "../lib/lib";
 import { i18n } from "../utils/Utils";
 
 /*
@@ -23,21 +24,23 @@ export class ChatResolver {
 		// desc regex contains an empty group so that the match layout is the same as "as"
 		// cimage: /^(\/cimage\s+)()([^]*)/i,
 		cimage: /^(cimage\s+)()([^]*)/i,
+		cvideo: /^(cvideo\s+)()([^]*)/i,
 	};
 
 	private static _REPLACE_PATTERNS = {
 		cimage: /(cimage\s*)/gi,
+		cvideo: /(cvideo\s*)/gi,
 	};
 
-	private static imageReg = /((.*)\.(i:gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))/gi;
+	private static imageReg = /((.*)\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|GIF|PNG|JPG|JPEG|WEBP|SVG|PSD|BMP|TIF))/gi;
 	private static imageMarkdownReg = /^(cimage\s+)\s*(.+?)\s*/gi;
 
-	// private static imageTemplate = (src: string): string => `<div class="chat-images-image">
-	// 	<img src="${src}" alt="${t('unableToLoadImage')}">
-	// 	</div>`
+	private static videoReg = /((.*)\.(i:webm|mp4|WEBM|MP$))/gi;
+	private static videoMarkdownReg = /^(cvideo\s+)\s*(.+?)\s*/gi;
 
 	private static CHAT_MESSAGE_SUB_TYPES = {
 		CIMAGE: 0,
+		CVIDEO: 1,
 	};
 
 	static onChatMessage(chatLog: any, message: string, chatData: any) {
@@ -65,6 +68,25 @@ export class ChatResolver {
 
 				return true;
 			}
+			case "cvideo": {
+				if (!game.user?.isGM) {
+					// TODO add game setting for allow player or only the gm
+					return true;
+				}
+
+				// Remove quotes or brackets around the speaker's name.
+				const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+
+				chatData.flags ??= {};
+				chatData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO };
+
+				chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+				chatData.speaker = { alias: alias, scene: game.user.viewedScene };
+				chatData.content = match[3].replace(/\n/g, "<br>");
+				// Fall through...
+
+				return true;
+			}
 			default: {
 				return true;
 			}
@@ -80,6 +102,16 @@ export class ChatResolver {
 					return message;
 				}
 				const processedMessage = ChatResolver._processMessageImage(message);
+				chatMessage.content = processedMessage;
+				chatMessage._source.content = processedMessage;
+				messageOptions.chatBubble = false;
+				return processedMessage;
+			}
+			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO: {
+				if (!message.match(ChatResolver.PATTERNS.cvideo)) {
+					return message;
+				}
+				const processedMessage = ChatResolver._processMessageVideo(message);
 				chatMessage.content = processedMessage;
 				chatMessage._source.content = processedMessage;
 				messageOptions.chatBubble = false;
@@ -115,16 +147,54 @@ export class ChatResolver {
 			imageTemplate =
 				imageTemplate +
 				`<div class="chat-images-image">
-		<img src="${src}" alt="${i18n("unableToLoadImage")}">
-		</div>`;
+					<img src="${src}" alt="${i18n("unableToLoadImage")}">
+			</div>`;
 		}
 		return imageTemplate;
+	}
+
+	private static _processMessageVideo(message: string): string {
+		if (!message.match(ChatResolver.videoMarkdownReg)) {
+			return message;
+		}
+		const bgLoop = true;
+		const bgMuted = true;
+		const newMessage = message.replaceAll(ChatResolver._REPLACE_PATTERNS.cvideo, "");
+		// split by one or more whitespace characters regex - \s+
+		const videosToCheck = newMessage.split(/\s+/);
+		const videos = <string[]>[];
+		for (const src of videosToCheck) {
+			// Remove quotes or brackets around the src url
+			const srcCleaned = src.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+			if (srcCleaned.match(ChatResolver.videoReg)) {
+				videos.push(srcCleaned);
+			}
+		}
+		if (videos?.length <= 0) {
+			return message;
+		}
+		let videoTemplate = ``;
+		for (const src of videos) {
+			videoTemplate =
+				videoTemplate +
+				`<video class="chat-images-image chat-images-video"
+				autoplay
+				${bgLoop ? "loop" : ""}
+				${bgMuted ? "muted" : ""}>
+				<source src="${src}" type="${getVideoType(src)}">
+			</video>`;
+		}
+		return videoTemplate;
 	}
 
 	static onRenderChatMessage(chatMessage, html, messageData) {
 		// @ts-ignore
 		switch (messageData.message.flags["chat-images"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
+				html.addClass("chat-images-image");
+				return;
+			}
+			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO: {
 				html.addClass("chat-images-image");
 				return;
 			}
