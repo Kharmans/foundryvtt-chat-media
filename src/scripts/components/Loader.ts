@@ -10,7 +10,7 @@ const toggleChat = (chat: JQuery, toggle: boolean) => {
 };
 
 const toggleSpinner = (chatForm: JQuery, toggle: boolean) => {
-	const spinnerId = "ci-spinner";
+	const spinnerId = "chat-images-spinner";
 	const spinner = find(`#${spinnerId}`, chatForm);
 
 	if (!toggle && spinner[0]) {

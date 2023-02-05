@@ -18,7 +18,7 @@ const imageTemplate = (imageProps: SaveValueType): string =>
 
 const messageTemplate = (imageQueue: SaveValueType[]) => {
 	const imageTemplates: string[] = imageQueue.map((imageProps: SaveValueType): string => imageTemplate(imageProps));
-	return `<div class="ci-message">${imageTemplates.join("")}</div>`;
+	return `<div class="chat-images-message">${imageTemplates.join("")}</div>`;
 };
 
 export const preCreateChatMessageHandler =
@@ -35,7 +35,7 @@ export const preCreateChatMessageHandler =
 		const uploadState = getUploadingStates(sidebar);
 		uploadState.on();
 
-		const content = `${messageTemplate(imageQueue)}<div class="ci-notes">${chatMessage.content}</div>`;
+		const content = `${messageTemplate(imageQueue)}<div class="chat-images-notes">${chatMessage.content}</div>`;
 
 		chatMessage.content = content;
 		chatMessage._source.content = content;

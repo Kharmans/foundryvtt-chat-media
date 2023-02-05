@@ -2,21 +2,21 @@
 @import "chat-message";
 
 #chat-controls {
-	& .ci-control-buttons-gm {
+	& .chat-images-control-buttons-gm {
 		flex: 0 0 72px;
 	}
 
-	& .ci-control-buttons-p {
+	& .chat-images-control-buttons-p {
 		flex: 0 0 24px;
 	}
 }
 
-#ci-upload-image-hidden-input {
+#chat-images-upload-image-hidden-input {
 	opacity: 0;
 	width: 0;
 }
 
-#ci-chat-upload-area {
+#chat-images-chat-upload-area {
 	flex: unset;
 	max-height: fit-content;
 
@@ -31,7 +31,7 @@
 	margin-right: 7px;
 }
 
-.ci-upload-area-image {
+.chat-images-upload-area-image {
 	display: flex;
 	position: relative;
 	justify-content: center;
@@ -43,13 +43,13 @@
 	margin: 3px;
 }
 
-.ci-image-preview {
+.chat-images-image-preview {
 	height: 100px;
 	width: 100px;
 	object-fit: cover;
 }
 
-.ci-remove-image-icon {
+.chat-images-remove-image-icon {
 	position: absolute;
 	font-size: 20px;
 	color: white;

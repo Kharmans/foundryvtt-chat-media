@@ -5,7 +5,7 @@ export const find = (selector: string, parentNode?: JQuery): JQuery =>
 	parentNode ? parentNode.find(selector) : $(selector);
 export const append = (parentNode: JQuery, newNode: JQuery): JQuery => parentNode.append(newNode);
 export const on = (parentNode: JQuery, eventType: string, eventFunction: Function): JQuery =>
-    // @ts-ignore
+	// @ts-ignore
 	parentNode.on(eventType, eventFunction);
 export const trigger = (parentNode: JQuery, eventType: string): JQuery => parentNode.trigger(eventType);
 export const removeClass = (parentNode: JQuery, classString: string): JQuery => parentNode.removeClass(classString);
