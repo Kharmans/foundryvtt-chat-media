@@ -147,7 +147,7 @@ export class ChatResolver {
 			imageTemplate =
 				imageTemplate +
 				`<div class="chat-images-image">
-					<img src="${src}" alt="${i18n("unableToLoadImage")}">
+					<img src="${src}" alt="${i18n("unableToLoadImage")}" data-src="${src}">
 			</div>`;
 		}
 		return imageTemplate;
@@ -177,12 +177,15 @@ export class ChatResolver {
 		for (const src of videos) {
 			videoTemplate =
 				videoTemplate +
-				`<video class="chat-images-image chat-images-video"
+				`<div class="chat-images-image">
+				<video class="chat-images-video"
 				autoplay
 				${bgLoop ? "loop" : ""}
-				${bgMuted ? "muted" : ""}>
+				${bgMuted ? "muted" : ""}
+				data-src="${src}">
 				<source src="${src}" type="${getVideoType(src)}">
-			</video>`;
+			</video>
+			</div>`;
 		}
 		return videoTemplate;
 	}

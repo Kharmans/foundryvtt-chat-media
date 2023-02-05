@@ -1,0 +1,15 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    {{#if isVideo}}
+        <video
+        	autoplay
+            {{#if isLoop}}loop{{/if}}
+            {{#if isMuted}}muted{{/if}}
+            style="width: 100%">
+            <source src="{{video}}" type="{{videoType}}">
+        </video>
+    {{else}}
+        <figure class="flexcol">
+            <img src="{{image}}" {{#if showTitle}}alt="{{title}}"{{/if}}/>
+        </figure>
+    {{/if}}
+</form>
