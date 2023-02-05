@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-tabs */
 
-import {i18n} from '../utils/Utils'
+import { i18n } from "../utils/Utils";
 
 /*
  * Cautious Gamemasters Pack
@@ -18,149 +18,151 @@ import {i18n} from '../utils/Utils'
  */
 export class ChatResolver {
 	private static PATTERNS = {
-    // extended commands
-    // "cimage": /^(\/cimage\s+)(\([^\)]+\)|\[[^\]]+\]|"[^"]+"|'[^']+'|[^\s]+)\s+([^]*)/i,
-    // desc regex contains an empty group so that the match layout is the same as "as"
-    // cimage: /^(\/cimage\s+)()([^]*)/i,
-	cimage: /^(cimage\s+)()([^]*)/i,
-  }
+		// extended commands
+		// "cimage": /^(\/cimage\s+)(\([^\)]+\)|\[[^\]]+\]|"[^"]+"|'[^']+'|[^\s]+)\s+([^]*)/i,
+		// desc regex contains an empty group so that the match layout is the same as "as"
+		// cimage: /^(\/cimage\s+)()([^]*)/i,
+		cimage: /^(cimage\s+)()([^]*)/i,
+	};
 
-  private static _REPLACE_PATTERNS = {
-	cimage: /(cimage\s*)/gi,
-  }
+	private static _REPLACE_PATTERNS = {
+		cimage: /(cimage\s*)/gi,
+	};
 
-private static imageReg = /((.*)\.(i:gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))/gi
-private static imageMarkdownReg =/^(cimage\s+)\s*(.+?)\s*/gi
+	private static imageReg = /((.*)\.(i:gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))/gi;
+	private static imageMarkdownReg = /^(cimage\s+)\s*(.+?)\s*/gi;
 
-// private static imageTemplate = (src: string): string => `<div class="chat-images-image">
-// 	<img src="${src}" alt="${t('unableToLoadImage')}">
-// 	</div>`
+	// private static imageTemplate = (src: string): string => `<div class="chat-images-image">
+	// 	<img src="${src}" alt="${t('unableToLoadImage')}">
+	// 	</div>`
 
 	private static CHAT_MESSAGE_SUB_TYPES = {
-    CIMAGE: 0,
-  }
+		CIMAGE: 0,
+	};
 
-  static onChatMessage(chatLog:any, message:string, chatData:any) {
-    // Parse the message to determine the matching handler
-    const [command, match] = ChatResolver._parseChatMessage(message)
+	static onChatMessage(chatLog: any, message: string, chatData: any) {
+		// Parse the message to determine the matching handler
+		const [command, match] = ChatResolver._parseChatMessage(message);
 
-    // Process message data based on the identified command type
-    switch (command) {
-      case 'cimage': {
-        if (!game.user?.isGM) { // TODO add game setting for allow player or only the gm
-          return true
-        }
+		// Process message data based on the identified command type
+		switch (command) {
+			case "cimage": {
+				if (!game.user?.isGM) {
+					// TODO add game setting for allow player or only the gm
+					return true;
+				}
 
-		// Remove quotes or brackets around the speaker's name.
-		const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, '$1');
+				// Remove quotes or brackets around the speaker's name.
+				const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
 
-        chatData.flags ??= {}
-        chatData.flags['chat-images'] = {subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE}
+				chatData.flags ??= {};
+				chatData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
-		chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
-		chatData.speaker = { alias: alias, scene: game.user.viewedScene };
-		chatData.content = match[3].replace(/\n/g, "<br>");
-        // Fall through...
+				chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+				chatData.speaker = { alias: alias, scene: game.user.viewedScene };
+				chatData.content = match[3].replace(/\n/g, "<br>");
+				// Fall through...
 
-		return true
-      }
-      default: {
-        return true
-      }
-    }
-  }
-
-  static onPreCreateChatMessage(chatMessage, messageB, messageOptions): string | null {
-    const messageData = messageB
-	const message = messageB.content ? messageB.content : messageB;
-    switch (messageData.flags['chat-images']?.subType) {
-      case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
-		if (!message.match(ChatResolver.PATTERNS.cimage)) {
-			return message
-		}
-		const processedMessage = ChatResolver._processMessageImage(message);
-	    chatMessage.content = processedMessage
-		chatMessage._source.content = processedMessage
-		messageOptions.chatBubble = false
-		return processedMessage;
-      }
-      default: {
-        break
-      }
-    }
-    return message
-  }
-
-  private static _processMessageImage(message: string): string {
-	if (!message.match(ChatResolver.imageMarkdownReg)) {
-	  return message
-	}
-	const newMessage =  message.replaceAll(ChatResolver._REPLACE_PATTERNS.cimage, "");
-	// split by one or more whitespace characters regex - \s+
-	const imagesToCheck = newMessage.split(/\s+/);
-	const images = <string[]>[];
-	for(const src of imagesToCheck) {
-		// Remove quotes or brackets around the src url
-		const srcCleaned = src.replace(/^["'\(\[](.*?)["'\)\]]$/, '$1');
-		if(srcCleaned.match(ChatResolver.imageReg)){
-			images.push(srcCleaned);
-		}
-	}
-	if(images?.length <= 0) {
-		return message;
-	}
-	let imageTemplate = ``;
-	for(const src of images) {
-		imageTemplate = imageTemplate + `<div class="chat-images-image">
-		<img src="${src}" alt="${i18n('unableToLoadImage')}">
-		</div>`;
-	}
-	return imageTemplate;
-  }
-
-  static onRenderChatMessage(chatMessage, html, messageData) {
-    // @ts-ignore
-    switch (messageData.message.flags['chat-images']?.subType) {
-      case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
-        html.addClass('chat-images-image')
-        return
-      }
-      default: {
-        break
-      }
-    }
-  }
-
-  /**
-   * The set of commands that can be processed over multiple lines.
-   * @type {Set<string>}
-   */
-  private static MULTILINE_COMMANDS = new Set(["roll", "gmroll", "blindroll", "selfroll", "publicroll"]);
-
-
-	private static _parseChatMessage(message:any) {
-    // Iterate over patterns, finding the first match
-    // for ( const [command, rgx] of Object.entries(ChatResolver.PATTERNS) ) {
-    //   const match = message.match(rgx)
-    //   if (match) {
-    //     return [command, match]
-    //   }
-    // }
-    // return [undefined, undefined]
-	for ( const [rule, rgx] of Object.entries(ChatResolver.PATTERNS) ) {
-		// For multi-line matches, the first line must match
-		if ( this.MULTILINE_COMMANDS.has(rule) ) {
-			const lines = message.split("\n");
-			if ( rgx.test(lines[0]) ) {
-				return [rule, lines.map(l => l.match(rgx))];
+				return true;
+			}
+			default: {
+				return true;
 			}
 		}
-		// For single-line matches, match directly
-		else {
-			const match = message.match(rgx);
-			if ( match ) return [rule, match];
+	}
+
+	static onPreCreateChatMessage(chatMessage, messageB, messageOptions): string | null {
+		const messageData = messageB;
+		const message = messageB.content ? messageB.content : messageB;
+		switch (messageData.flags["chat-images"]?.subType) {
+			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
+				if (!message.match(ChatResolver.PATTERNS.cimage)) {
+					return message;
+				}
+				const processedMessage = ChatResolver._processMessageImage(message);
+				chatMessage.content = processedMessage;
+				chatMessage._source.content = processedMessage;
+				messageOptions.chatBubble = false;
+				return processedMessage;
+			}
+			default: {
+				break;
+			}
 		}
+		return message;
+	}
+
+	private static _processMessageImage(message: string): string {
+		if (!message.match(ChatResolver.imageMarkdownReg)) {
+			return message;
+		}
+		const newMessage = message.replaceAll(ChatResolver._REPLACE_PATTERNS.cimage, "");
+		// split by one or more whitespace characters regex - \s+
+		const imagesToCheck = newMessage.split(/\s+/);
+		const images = <string[]>[];
+		for (const src of imagesToCheck) {
+			// Remove quotes or brackets around the src url
+			const srcCleaned = src.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+			if (srcCleaned.match(ChatResolver.imageReg)) {
+				images.push(srcCleaned);
+			}
+		}
+		if (images?.length <= 0) {
+			return message;
+		}
+		let imageTemplate = ``;
+		for (const src of images) {
+			imageTemplate =
+				imageTemplate +
+				`<div class="chat-images-image">
+		<img src="${src}" alt="${i18n("unableToLoadImage")}">
+		</div>`;
+		}
+		return imageTemplate;
+	}
+
+	static onRenderChatMessage(chatMessage, html, messageData) {
+		// @ts-ignore
+		switch (messageData.message.flags["chat-images"]?.subType) {
+			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
+				html.addClass("chat-images-image");
+				return;
+			}
+			default: {
+				break;
+			}
+		}
+	}
+
+	/**
+	 * The set of commands that can be processed over multiple lines.
+	 * @type {Set<string>}
+	 */
+	private static MULTILINE_COMMANDS = new Set(["roll", "gmroll", "blindroll", "selfroll", "publicroll"]);
+
+	private static _parseChatMessage(message: any) {
+		// Iterate over patterns, finding the first match
+		// for ( const [command, rgx] of Object.entries(ChatResolver.PATTERNS) ) {
+		//   const match = message.match(rgx)
+		//   if (match) {
+		//     return [command, match]
+		//   }
+		// }
+		// return [undefined, undefined]
+		for (const [rule, rgx] of Object.entries(ChatResolver.PATTERNS)) {
+			// For multi-line matches, the first line must match
+			if (this.MULTILINE_COMMANDS.has(rule)) {
+				const lines = message.split("\n");
+				if (rgx.test(lines[0])) {
+					return [rule, lines.map((l) => l.match(rgx))];
+				}
+			}
+			// For single-line matches, match directly
+			else {
+				const match = message.match(rgx);
+				if (match) return [rule, match];
+			}
 		}
 		return ["none", [message, "", message]];
-  	}
+	}
 }
