@@ -256,6 +256,13 @@ function buildSASS() {
   return gulp.src(`src/**/*.scss`).pipe(sass().on(`error`, sass.logError)).pipe(gulp.dest(`dist`));
 }
 
+/**
+ * Build Map
+ */
+function buildMap() {
+    return gulp.src(`src/**/*.map`).pipe(gulp.dest(`dist`));
+}
+
 const bundleModule = async () => {
     const debug = argv.dbg || argv.debug;
     const bsfy = browserify(path.join(__dirname, mainFilePath), { debug: debug });
@@ -655,7 +662,7 @@ const test = () => {
 
 
 // const execBuild = gulp.parallel(buildTS, buildLess, copyFiles); // MOD 4535992
-const execBuild = gulp.parallel(buildTS, buildJS, buildMJS, buildCSS, buildLess, buildSASS, copyFiles);
+const execBuild = gulp.parallel(buildTS, buildJS, buildMJS, buildCSS, buildLess, buildSASS, buildMap, copyFiles);
 
 exports.build = gulp.series(clean, execBuild);
 exports.bundle = gulp.series(clean, execBuild, bundleModule, cleanDist);

@@ -19,12 +19,15 @@ const DOM_PARSER = new DOMParser();
 let imageQueue: SaveValueType[] = [];
 
 const isFileImage = (file: File | DataTransferItem) => file.type && file.type.startsWith("image/");
+const isFileVideo = (file: File | DataTransferItem) => file.type && file.type.startsWith("video/");
 
 const createImagePreview = ({ imageSrc, id }: SaveValueType): JQuery =>
 	create(
 		`<div id="${id}" class="chat-images-upload-area-image">
             <i class="chat-images-remove-image-icon fa-regular fa-circle-xmark"></i>
-            <img class="chat-images-image-preview" src="${imageSrc}" alt="${i18n("unableToLoadImage")}"/>
+            <img class="chat-images-image-preview" data-src="${imageSrc}" src="${imageSrc}" alt="${i18n(
+			"unableToLoadImage"
+		)}"/>
         </div>`
 	);
 
@@ -96,20 +99,22 @@ const addImageToQueue = async (saveValue: SaveValueType, sidebar: JQuery) => {
 	uploadingStates.off();
 };
 
-const imagesFileReaderHandler = (file: File, sidebar: JQuery) => async (evt: Event) => {
+const filesFileReaderHandler = (file: File, sidebar: JQuery) => async (evt: Event) => {
 	const imageSrc = (evt.target as FileReader)?.result;
 	const saveValue = { type: file.type, name: file.name, imageSrc, id: randomString(), file };
 	await addImageToQueue(saveValue, sidebar);
 };
 
-export const processImageFiles = (files: FileList | File[], sidebar: JQuery) => {
+export const processFiles = (files: FileList | File[], sidebar: JQuery) => {
 	for (let i = 0; i < files.length; i++) {
 		const file: File = <File>files[i];
-		if (!isFileImage(file)) {
+		const isImage = isFileImage(file);
+		const isVideo = isFileVideo(file);
+		if (!isImage && !isVideo) {
 			continue;
 		}
 		const reader: FileReader = new FileReader();
-		reader.addEventListener("load", imagesFileReaderHandler(file, sidebar));
+		reader.addEventListener("load", filesFileReaderHandler(file, sidebar));
 		reader.readAsDataURL(file);
 	}
 };
@@ -136,25 +141,33 @@ export const processDropAndPasteImages = (eventData: DataTransfer, sidebar: JQue
 	};
 
 	const urls: string[] | null = extractUrlFromEventData(eventData);
-	if (urls && urls.length) return urlsFromEventDataHandler(urls);
+	if (urls && urls.length) {
+		return urlsFromEventDataHandler(urls);
+	}
 
 	const extractFilesFromEventData = (eventData: DataTransfer): File[] => {
 		const items: DataTransferItemList = eventData.items;
 		const files = <any[]>[];
 		for (let i = 0; i < items.length; i++) {
 			const item: DataTransferItem = <DataTransferItem>items[i];
-			if (!isFileImage(item)) continue;
-
+			const isImage = isFileImage(item);
+			const isVideo = isFileVideo(item);
+			if (!isImage && !isVideo) {
+				continue;
+			}
 			const file = item.getAsFile();
-			if (!file) continue;
-
+			if (!file) {
+				continue;
+			}
 			files.push(file);
 		}
 		return files;
 	};
 
-	const files: File[] = extractFilesFromEventData(eventData);
-	if (files && files.length) return processImageFiles(files, sidebar);
+	const filesExtracted: File[] = extractFilesFromEventData(eventData);
+	if (filesExtracted && filesExtracted.length) {
+		return processFiles(filesExtracted, sidebar);
+	}
 };
 
 export const getImageQueue = (): SaveValueType[] => imageQueue;

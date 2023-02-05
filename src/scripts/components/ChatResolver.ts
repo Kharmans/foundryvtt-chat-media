@@ -18,7 +18,7 @@ import { i18n } from "../utils/Utils";
  * https://mit-license.org/
  */
 export class ChatResolver {
-	private static PATTERNS = {
+	static PATTERNS = {
 		// extended commands
 		// "cimage": /^(\/cimage\s+)(\([^\)]+\)|\[[^\]]+\]|"[^"]+"|'[^']+'|[^\s]+)\s+([^]*)/i,
 		// desc regex contains an empty group so that the match layout is the same as "as"
@@ -96,6 +96,16 @@ export class ChatResolver {
 	static onPreCreateChatMessage(chatMessage, messageB, messageOptions): string | null {
 		const messageData = messageB;
 		const message = messageB.content ? messageB.content : messageB;
+
+		if (!messageData.flags) {
+			if ($(chatMessage.content).find(".chat-images-image")) {
+				messageData.flags ??= {};
+				messageData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+
+				messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+			}
+		}
+
 		switch (messageData.flags["chat-images"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
 				if (!message.match(ChatResolver.PATTERNS.cimage)) {
@@ -147,7 +157,7 @@ export class ChatResolver {
 			imageTemplate =
 				imageTemplate +
 				`<div class="chat-images-image">
-					<img src="${src}" alt="${i18n("unableToLoadImage")}" data-src="${src}">
+					<img data-src="${src}" src="${src}" alt="${i18n("unableToLoadImage")}" >
 			</div>`;
 		}
 		return imageTemplate;
@@ -191,6 +201,15 @@ export class ChatResolver {
 	}
 
 	static onRenderChatMessage(chatMessage, html, messageData) {
+		if (!messageData.message.flags) {
+			if ($(chatMessage.content).find(".chat-images-image")) {
+				messageData.message.flags ??= {};
+				messageData.message.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+
+				messageData.message.type = CONST.CHAT_MESSAGE_TYPES.IC;
+			}
+		}
+
 		// @ts-ignore
 		switch (messageData.message.flags["chat-images"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {

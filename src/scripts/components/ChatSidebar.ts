@@ -12,7 +12,7 @@ let hookIsHandlingTheMessage = false;
 let eventIsHandlingTheMessage = false;
 
 const imageTemplate = (imageProps: SaveValueType): string =>
-	`<div class="chat-images-image"><img src="${imageProps.imageSrc}" alt="${
+	`<div class="chat-images-image"><img data-src="${imageProps.imageSrc}" src="${imageProps.imageSrc}" alt="${
 		imageProps.name || i18n("unableToLoadImage")
 	}"></div>`;
 

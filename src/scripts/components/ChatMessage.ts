@@ -5,7 +5,8 @@ export const initChatMessage = (html: JQuery) => {
 	const images = find(".chat-images-image img", html);
 	if (images[0]) {
 		const clickImageHandle = (evt: Event) => {
-			const src = <any>(evt.target as HTMLImageElement).dataset.src;
+			//@ts-ignore
+			const src = <any>evt.target?.dataset?.src ? evt.target.dataset.src : evt.target.src;
 			new ImagePopout(src, { editable: false, shareable: true }).render(true);
 		};
 		on(images, "click", clickImageHandle);
@@ -13,7 +14,8 @@ export const initChatMessage = (html: JQuery) => {
 	const videos = find(".chat-images-image video", html);
 	if (videos[0]) {
 		const clickImageHandle = (evt: Event) => {
-			const src = <any>(evt.target as HTMLVideoElement).dataset.src;
+			//@ts-ignore
+			const src = <any>evt.target?.dataset?.src ? evt.target.dataset.src : evt.target.src;
 			new MediaPopout(src, { editable: false, shareable: true }).render(true);
 		};
 		on(videos, "click", clickImageHandle);
