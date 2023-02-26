@@ -98,30 +98,35 @@ export class ChatResolver {
 		const message = messageB.content ? messageB.content : messageB;
 
 		if (!messageData.flags) {
-			if ($(chatMessage.content).find(".chat-images-image")) {
+			if (chatMessage?.content && $(chatMessage.content)?.find(".chat-images-image")) {
 				messageData.flags ??= {};
 				messageData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
 				messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
 			}
+			// else {
+			// 	return message;
+			// }
 		}
 
 		switch (messageData.flags["chat-images"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
-				if (!message.match(ChatResolver.PATTERNS.cimage)) {
+				const messageTmp = message.startsWith("cimage") ? message : "cimage " + message;
+				if (!messageTmp.match(ChatResolver.PATTERNS.cimage)) {
 					return message;
 				}
-				const processedMessage = ChatResolver._processMessageImage(message);
+				const processedMessage = ChatResolver._processMessageImage(messageTmp);
 				chatMessage.content = processedMessage;
 				chatMessage._source.content = processedMessage;
 				messageOptions.chatBubble = false;
 				return processedMessage;
 			}
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO: {
-				if (!message.match(ChatResolver.PATTERNS.cvideo)) {
+				const messageTmp = message.startsWith("cvideo") ? message : "cvideo " + message;
+				if (!messageTmp.match(ChatResolver.PATTERNS.cvideo)) {
 					return message;
 				}
-				const processedMessage = ChatResolver._processMessageVideo(message);
+				const processedMessage = ChatResolver._processMessageVideo(messageTmp);
 				chatMessage.content = processedMessage;
 				chatMessage._source.content = processedMessage;
 				messageOptions.chatBubble = false;
