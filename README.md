@@ -12,6 +12,7 @@ The title says it all, this module adds support for images in the chat: copy-pas
 This is different from the previous versions, you will have to wrap your url in `!ci|!`, e.g. `!ci|<url>!`.
 
 # Prerequisites
+
 `Upload New Files` permission, if a user doesn't have it, they will get an warning every time they try to upload an image
 
 ![usage](./readme/upload_permissions.png)

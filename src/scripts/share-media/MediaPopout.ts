@@ -1,5 +1,5 @@
 import CONSTANTS from "../constants.js";
-import { getVideoType } from "../lib/lib.js";
+import { getVideoType, isVideo } from "../lib/lib.js";
 
 /**
  * Extend the default Image Popout to handle videos
@@ -10,7 +10,7 @@ export default class MediaPopout extends ImagePopout {
 	constructor(src, options = {}) {
 		super(src, options);
 
-		this.video = [".mp4", "webm"].includes(src.slice(-4).toLowerCase());
+		this.video = isVideo(src); //[".mp4", "webm"].includes(src.slice(-4).toLowerCase());
 		this.options.template = `modules/${CONSTANTS.MODULE_NAME}/templates/media-popout-dialog.hbs`;
 	}
 

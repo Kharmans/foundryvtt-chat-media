@@ -8,7 +8,8 @@ const createUploadButton = (): JQuery =>
 
 const createHiddenUploadInput = (): JQuery =>
 	create(`<input type="file" multiple accept="image/*" id="chat-images-upload-image-hidden-input">`);
-//create(`<input type="file" multiple accept="" id="chat-images-upload-image-hidden-input">`);
+//SUPPORT FOR VIDEO
+//create(`<input type="file" multiple accept="image/*,video/*" id="chat-images-upload-image-hidden-input">`);
 
 const setupEvents = (uploadButton: JQuery, hiddenUploadInput: JQuery, sidebar: JQuery) => {
 	const hiddenUploadInputChangeEventHandler = (evt: Event) => {
