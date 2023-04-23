@@ -11,7 +11,7 @@ export const createUploadFolder = async (uploadLocation?: string) => {
 };
 
 export const setSetting = (key: string, value: any) => {
-	return (game as Game).settings.set("chat-images", key, value);
+	return (game as Game).settings.set("chat-media", key, value);
 };
 
 export const getSettings = () => [
@@ -32,12 +32,12 @@ export const getSettings = () => [
 			name: i18n("uploadLocation"),
 			hint: i18n("uploadLocationHint"),
 			type: String,
-			default: "uploaded-chat-images",
+			default: "uploaded-chat-media",
 			scope: "world",
 			config: true,
 			restricted: true,
 			onChange: async (newUploadLocation: string) => {
-				const defaultLocation = "uploaded-chat-images";
+				const defaultLocation = "uploaded-chat-media";
 				let location = newUploadLocation.trim();
 				let shouldChangeLocation = false;
 
@@ -57,9 +57,9 @@ export const getSettings = () => [
 ];
 
 export const registerSetting = (setting: { key: string; options: any }) => {
-	return (game as Game).settings.register("chat-images", setting.key, setting.options);
+	return (game as Game).settings.register("chat-media", setting.key, setting.options);
 };
 
 export const getSetting = (key: string): any => {
-	return (game as Game).settings.get("chat-images", key);
+	return (game as Game).settings.get("chat-media", key);
 };

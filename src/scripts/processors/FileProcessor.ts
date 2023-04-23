@@ -23,9 +23,9 @@ const isFileVideo = (file: File | DataTransferItem) => file.type && file.type.st
 
 const createImagePreview = ({ imageSrc, id }: SaveValueType): JQuery =>
 	create(
-		`<div id="${id}" class="chat-images-upload-area-image">
-            <i class="chat-images-remove-image-icon fa-regular fa-circle-xmark"></i>
-            <img class="chat-images-image-preview" data-src="${imageSrc}" src="${imageSrc}" alt="${i18n(
+		`<div id="${id}" class="chat-media-upload-area-image">
+            <i class="chat-media-remove-image-icon fa-regular fa-circle-xmark"></i>
+            <img class="chat-media-image-preview" data-src="${imageSrc}" src="${imageSrc}" alt="${i18n(
 			"unableToLoadImage"
 		)}"/>
         </div>`
@@ -76,7 +76,7 @@ const addImageToQueue = async (saveValue: SaveValueType, sidebar: JQuery) => {
 	const uploadingStates = getUploadingStates(sidebar);
 
 	uploadingStates.on();
-	const uploadArea: JQuery = find("#chat-images-chat-upload-area", sidebar);
+	const uploadArea: JQuery = find("#chat-media-chat-upload-area", sidebar);
 	if (!uploadArea || !uploadArea[0]) return;
 
 	if (saveValue.file) {
@@ -94,7 +94,7 @@ const addImageToQueue = async (saveValue: SaveValueType, sidebar: JQuery) => {
 	append(uploadArea, imagePreview);
 	imageQueue.push(saveValue);
 
-	const removeButton = find(".chat-images-remove-image-icon", imagePreview);
+	const removeButton = find(".chat-media-remove-image-icon", imagePreview);
 	addEventToRemoveButton(removeButton, saveValue, uploadArea);
 	uploadingStates.off();
 };
@@ -181,6 +181,6 @@ export const removeAllFromQueue = (sidebar: JQuery) => {
 		remove(imageElement);
 	}
 
-	const uploadArea: JQuery = find("#chat-images-chat-upload-area", sidebar);
+	const uploadArea: JQuery = find("#chat-media-chat-upload-area", sidebar);
 	addClass(uploadArea, "hidden");
 };

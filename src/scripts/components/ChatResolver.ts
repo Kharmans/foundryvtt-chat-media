@@ -59,7 +59,7 @@ export class ChatResolver {
 				const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
 
 				chatData.flags ??= {};
-				chatData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+				chatData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
 				chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
 				chatData.speaker = { alias: alias, scene: game.user.viewedScene };
@@ -78,7 +78,7 @@ export class ChatResolver {
 				const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
 
 				chatData.flags ??= {};
-				chatData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO };
+				chatData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO };
 
 				chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
 				chatData.speaker = { alias: alias, scene: game.user.viewedScene };
@@ -98,9 +98,9 @@ export class ChatResolver {
 		const message = messageB.content ? messageB.content : messageB;
 
 		if (!messageData.flags) {
-			if (chatMessage?.content && $(chatMessage.content)?.find(".chat-images-image")) {
+			if (chatMessage?.content && $(chatMessage.content)?.find(".chat-media-image")) {
 				messageData.flags ??= {};
-				messageData.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+				messageData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
 				messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
 			}
@@ -109,7 +109,7 @@ export class ChatResolver {
 			// }
 		}
 
-		switch (messageData.flags["chat-images"]?.subType) {
+		switch (messageData.flags["chat-media"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
 				const messageTmp = message.startsWith("cimage") ? message : "cimage " + message;
 				if (!messageTmp.match(ChatResolver.PATTERNS.cimage)) {
@@ -161,7 +161,7 @@ export class ChatResolver {
 		for (const src of images) {
 			imageTemplate =
 				imageTemplate +
-				`<div class="chat-images-image">
+				`<div class="chat-media-image">
 					<img data-src="${src}" src="${src}" alt="${i18n("unableToLoadImage")}" >
 			</div>`;
 		}
@@ -192,8 +192,8 @@ export class ChatResolver {
 		for (const src of videos) {
 			videoTemplate =
 				videoTemplate +
-				`<div class="chat-images-image">
-				<video class="chat-images-video"
+				`<div class="chat-media-image">
+				<video class="chat-media-video"
 				autoplay
 				${bgLoop ? "loop" : ""}
 				${bgMuted ? "muted" : ""}
@@ -207,22 +207,22 @@ export class ChatResolver {
 
 	static onRenderChatMessage(chatMessage, html, messageData) {
 		if (!messageData.message.flags) {
-			if ($(chatMessage.content).find(".chat-images-image")) {
+			if ($(chatMessage.content).find(".chat-media-image")) {
 				messageData.message.flags ??= {};
-				messageData.message.flags["chat-images"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+				messageData.message.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
 				messageData.message.type = CONST.CHAT_MESSAGE_TYPES.IC;
 			}
 		}
 
 		// @ts-ignore
-		switch (messageData.message.flags["chat-images"]?.subType) {
+		switch (messageData.message.flags["chat-media"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
-				html.addClass("chat-images-image");
+				html.addClass("chat-media-image");
 				return;
 			}
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO: {
-				html.addClass("chat-images-image");
+				html.addClass("chat-media-image");
 				return;
 			}
 			default: {

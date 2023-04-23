@@ -2,7 +2,7 @@ import MediaPopout from "../share-media/MediaPopout";
 import { find, on } from "../utils/JqueryWrappers";
 
 export const initChatMessage = (html: JQuery) => {
-	const images = find(".chat-images-image img", html);
+	const images = find(".chat-media-image img", html);
 	if (images[0]) {
 		const clickImageHandle = (evt: Event) => {
 			//@ts-ignore
@@ -11,7 +11,7 @@ export const initChatMessage = (html: JQuery) => {
 		};
 		on(images, "click", clickImageHandle);
 	}
-	const videos = find(".chat-images-image video", html);
+	const videos = find(".chat-media-image video", html);
 	if (videos[0]) {
 		const clickImageHandle = (evt: Event) => {
 			//@ts-ignore

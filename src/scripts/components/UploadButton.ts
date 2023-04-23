@@ -4,12 +4,12 @@ import { processFiles } from "../processors/FileProcessor";
 import { getSetting } from "../utils/Settings";
 
 const createUploadButton = (): JQuery =>
-	create(`<a id="chat-images-upload-image" title="${i18n("uploadButtonTitle")}"><i class="fas fa-images"></i></a>`);
+	create(`<a id="chat-media-upload-image" title="${i18n("uploadButtonTitle")}"><i class="fas fa-images"></i></a>`);
 
 const createHiddenUploadInput = (): JQuery =>
-	create(`<input type="file" multiple accept="image/*" id="chat-images-upload-image-hidden-input">`);
+	create(`<input type="file" multiple accept="image/*" id="chat-media-upload-image-hidden-input">`);
 //SUPPORT FOR VIDEO
-//create(`<input type="file" multiple accept="image/*,video/*" id="chat-images-upload-image-hidden-input">`);
+//create(`<input type="file" multiple accept="image/*,video/*" id="chat-media-upload-image-hidden-input">`);
 
 const setupEvents = (uploadButton: JQuery, hiddenUploadInput: JQuery, sidebar: JQuery) => {
 	const hiddenUploadInputChangeEventHandler = (evt: Event) => {
@@ -39,13 +39,13 @@ export const initUploadButton = (sidebar: JQuery) => {
 	if (!userCanUpload(true)) return;
 
 	if (controlButtons[0]) {
-		addClass(controlButtons, "chat-images-control-buttons-gm");
+		addClass(controlButtons, "chat-media-control-buttons-gm");
 		append(controlButtons, uploadButton);
 		append(controlButtons, hiddenUploadInput);
 	} else {
 		// Players don't have buttons
 		const chatControls: JQuery = find("#chat-controls", sidebar);
-		const newControlButtons = create('<div class="chat-images-control-buttons-p"></div>');
+		const newControlButtons = create('<div class="chat-media-control-buttons-p"></div>');
 
 		append(newControlButtons, uploadButton);
 		append(newControlButtons, hiddenUploadInput);

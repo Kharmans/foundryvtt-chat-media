@@ -12,13 +12,13 @@ let hookIsHandlingTheMessage = false;
 let eventIsHandlingTheMessage = false;
 
 const imageTemplate = (imageProps: SaveValueType): string =>
-	`<div class="chat-images-image"><img data-src="${imageProps.imageSrc}" src="${imageProps.imageSrc}" alt="${
+	`<div class="chat-media-image"><img data-src="${imageProps.imageSrc}" src="${imageProps.imageSrc}" alt="${
 		imageProps.name || i18n("unableToLoadImage")
 	}"></div>`;
 
 const messageTemplate = (imageQueue: SaveValueType[]) => {
 	const imageTemplates: string[] = imageQueue.map((imageProps: SaveValueType): string => imageTemplate(imageProps));
-	return `<div class="chat-images-message">${imageTemplates.join("")}</div>`;
+	return `<div class="chat-media-message">${imageTemplates.join("")}</div>`;
 };
 
 export const preCreateChatMessageHandler =
@@ -35,7 +35,7 @@ export const preCreateChatMessageHandler =
 		const uploadState = getUploadingStates(sidebar);
 		uploadState.on();
 
-		const content = `${messageTemplate(imageQueue)}<div class="chat-images-notes">${chatMessage.content}</div>`;
+		const content = `${messageTemplate(imageQueue)}<div class="chat-media-notes">${chatMessage.content}</div>`;
 
 		chatMessage.content = content;
 		chatMessage._source.content = content;

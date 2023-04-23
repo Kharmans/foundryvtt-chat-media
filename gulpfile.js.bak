@@ -4,7 +4,7 @@
 /**
  * This is important for the bundle.js
  */
-const mainFilePath = `src/chat-media.ts`; // MOD 4535992
+const mainFilePath = `src/final-blow.ts`; // MOD 4535992
 
 const gulp = require(`gulp`);
 const fs = require(`fs`);
@@ -254,6 +254,13 @@ function buildLess() {
  */
 function buildSASS() {
   return gulp.src(`src/**/*.scss`).pipe(sass().on(`error`, sass.logError)).pipe(gulp.dest(`dist`));
+}
+
+/**
+ * Build Map
+ */
+function buildMap() {
+    return gulp.src(`src/**/*.map`).pipe(gulp.dest(`dist`));
 }
 
 const bundleModule = async () => {
@@ -655,7 +662,7 @@ const test = () => {
 
 
 // const execBuild = gulp.parallel(buildTS, buildLess, copyFiles); // MOD 4535992
-const execBuild = gulp.parallel(buildTS, buildJS, buildMJS, buildCSS, buildLess, buildSASS, copyFiles);
+const execBuild = gulp.parallel(buildTS, buildJS, buildMJS, buildCSS, buildLess, buildSASS, buildMap, copyFiles);
 
 exports.build = gulp.series(clean, execBuild);
 exports.bundle = gulp.series(clean, execBuild, bundleModule, cleanDist);

@@ -1,15 +1,26 @@
-# Chat Images 3
-![GitHub Latest Release](https://img.shields.io/github/release/bmarian/chat-images?style=for-the-badge)
-![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fchat-images&colorB=4aa94a&style=for-the-badge)
-![Downloads](https://img.shields.io/github/downloads/bmarian/chat-images/latest/module.zip?style=for-the-badge)
+# Chat Media
+![GitHub Latest Release](https://img.shields.io/github/release/p4535992/chat-media?style=for-the-badge)
+![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fchat-media&colorB=4aa94a&style=for-the-badge)
+![Downloads](https://img.shields.io/github/downloads/p4535992/chat-media/latest/module.zip?style=for-the-badge)
 
-The title says it all, this module adds support for images in the chat: copy-paste, drag & drop, and links are automatically converted to images.
+Tthis module adds support for images and partially video in the chat: copy-paste, drag & drop, and links are automatically converted to images.
+
+This is a upgrade fo the module [Chat Images](https://github.com/bmarian/chat-images)
 
 # Example
 ![usage](./readme/example.gif)
 
 # Converting an url into an image
-This is different from the previous versions, you will have to wrap your url in `!ci|!`, e.g. `!ci|<url>!`.
+
+If you want to put a image on the chat just put
+
+```
+/cimage <URL TO IMAGE>
+```
+
+```
+/cvideo <URL TO VIDEO>
+```
 
 # Prerequisites
 

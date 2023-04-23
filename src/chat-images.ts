@@ -52,7 +52,7 @@ Hooks.once("setup", () => {
 
 	Hooks.on("renderChatMessage", (chatMessage: any, html: JQuery, messageData: any) => {
 		ChatResolver.onRenderChatMessage(chatMessage, html, messageData);
-		const ciMessage = find(".chat-images-image", html);
+		const ciMessage = find(".chat-media-image", html);
 		if (!ciMessage[0]) {
 			return;
 		}

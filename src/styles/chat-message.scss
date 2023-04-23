@@ -1,5 +1,5 @@
-.chat-images-message-image,
-.chat-images-image {
+.chat-media-message-image,
+.chat-media-image {
 	& img {
 		cursor: pointer;
 
@@ -8,7 +8,7 @@
 		}
 	}
 }
-.chat-images-video {
+.chat-media-video {
 	width: 100%;
 	width: -moz-available;
 	width: -webkit-fill-available;
