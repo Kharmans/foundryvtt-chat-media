@@ -4,20 +4,52 @@
 	"title": "Chat Media",
 	"description": "Extends chat functionality with image and video support.",
 	"version": "3.2.1",
-	"author": "p4535992",
 	"authors": [
 		{
+			"name": "Marian#8010",
+			"url": "https://github.com/marianb",
+			"discord": ""
+		},
+		{
 			"name": "p4535992",
-			"discord": "Marian#8010",
-			"url": "https://github.com/p4535992"
+			"url": "https://github.com/p4535992",
+			"discord": "",
+			"twitter": "",
+			"patreon": "",
+			"github": "p4535992",
+			"ko-fi": "",
+			"reddit": "",
+			"email": ""
 		}
 	],
-	"esmodules": ["chat-media.js"],
-	"styles": ["styles/chat-media.css", "styles/chat-message.css", "styles/spinner.css"],
-	"compatibility": {
-		"minimum": "10",
-		"verified": "10.285"
-	},
+	"type": "module",
+	"socket": true,
+	"includes": [
+		"./assets/**",
+		"./lang/**",
+		"./languages/**",
+		"./scripts/**",
+		"./styles/**",
+		"./templates/**",
+		"./module.json",
+		"./README.md",
+		"./icons/**",
+		"./packs/**"
+	],
+	"media": [
+		{
+			"type": "icon",
+			"location": ""
+		},
+		{
+			"type": "cover",
+			"location": ""
+		},
+		{
+			"type": "screenshot",
+			"location": ""
+		}
+	],
 	"languages": [
 		{
 			"lang": "en",
@@ -25,8 +57,27 @@
 			"path": "languages/en.json"
 		}
 	],
-	"url": "https://github.com/p4535992/chat-media",
-	"manifest": "https://github.com/p4535992/chat-media/releases/latest/download/module.json",
-	"download": "https://github.com/p4535992/chat-media/releases/latest/download/module.zip",
-	"changelog": "https://github.com/p4535992/chat-media/releases"
+	"packs": [],
+	"systems": [],
+	"scripts": [],
+	"esmodules": ["chat-media.js"],
+	"styles": ["styles/chat-media.css", "styles/chat-message.css", "styles/spinner.css"],
+	"compatibility": {
+		"minimum": 10,
+		"verified": 10,
+		"maximum": 10
+	},
+	"manifestPlusVersion": "1.2.1",
+	"url": "https://github.com/p4535992/foundryvtt-chat-media",
+	"manifest": "https://github.com/p4535992/foundryvtt-chat-media/releases/latest/download/module.json",
+	"download": "https://github.com/p4535992/foundryvtt-chat-media/releases/latest/download/module.zip",
+	"readme": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/README.md",
+	"changelog": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/CHANGELOG.md",
+	"bugs": "https://github.com/p4535992/foundryvtt-chat-media/issues",
+	"allowBugReporter": true,
+	"relationships": {
+		"systems": [],
+		"requires": [],
+		"conflicts": []
+	}
 }
