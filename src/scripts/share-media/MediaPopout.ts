@@ -39,7 +39,7 @@ export default class MediaPopout extends ImagePopout {
 		const mediaPopout = <any>new this(url, {
 			title,
 			shareable: false,
-			editable: false,
+			editable: false
 		}).render(true);
 
 		// Fix: force play after rendering

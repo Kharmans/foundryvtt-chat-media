@@ -1,8 +1,8 @@
 {
 	"id": "chat-media",
 	"name": "chat-media",
-	"title": "Chat Medias",
-	"description": "Extends chat functionality with image support.",
+	"title": "Chat Media",
+	"description": "Extends chat functionality with image and video support.",
 	"version": "3.2.1",
 	"author": "p4535992",
 	"authors": [

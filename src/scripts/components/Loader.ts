@@ -36,6 +36,6 @@ export const getUploadingStates = (sidebar: JQuery) => {
 		off() {
 			toggleChat(chat, true);
 			toggleSpinner(chatForm, false);
-		},
+		}
 	};
 };

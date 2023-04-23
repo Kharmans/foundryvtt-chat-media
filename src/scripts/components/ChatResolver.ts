@@ -24,12 +24,12 @@ export class ChatResolver {
 		// desc regex contains an empty group so that the match layout is the same as "as"
 		// cimage: /^(\/cimage\s+)()([^]*)/i,
 		cimage: /^(cimage\s+)()([^]*)/i,
-		cvideo: /^(cvideo\s+)()([^]*)/i,
+		cvideo: /^(cvideo\s+)()([^]*)/i
 	};
 
 	private static _REPLACE_PATTERNS = {
 		cimage: /(cimage\s*)/gi,
-		cvideo: /(cvideo\s*)/gi,
+		cvideo: /(cvideo\s*)/gi
 	};
 
 	private static imageReg = /((.*)\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|GIF|PNG|JPG|JPEG|WEBP|SVG|PSD|BMP|TIF))/gi;
@@ -40,7 +40,7 @@ export class ChatResolver {
 
 	private static CHAT_MESSAGE_SUB_TYPES = {
 		CIMAGE: 0,
-		CVIDEO: 1,
+		CVIDEO: 1
 	};
 
 	static onChatMessage(chatLog: any, message: string, chatData: any) {

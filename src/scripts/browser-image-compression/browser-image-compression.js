@@ -28,7 +28,7 @@
 										enumerable: !0,
 										get: function () {
 											return r[t];
-										},
+										}
 								  }
 						);
 					}
@@ -296,7 +296,7 @@
 					},
 					crc: function (e, r, t) {
 						return 4294967295 ^ UZIP.crc.update(4294967295, e, r, t);
-					},
+					}
 				}),
 				(UZIP.adler = function (e, r, t) {
 					for (var a = 1, i = 0, s = r, f = r + t; s < f; ) {
@@ -374,7 +374,7 @@
 							}
 						}
 						return t;
-					},
+					}
 				}),
 				(UZIP.F = {}),
 				(UZIP.F.deflateRaw = function (e, r, t, a) {
@@ -388,7 +388,7 @@
 							[8, 16, 128, 128, 0],
 							[8, 32, 128, 256, 0],
 							[32, 128, 258, 1024, 1],
-							[32, 258, 258, 4096, 1],
+							[32, 258, 258, 4096, 1]
 						][a],
 						s = UZIP.F.U,
 						f = UZIP.F._goodIndex;
@@ -890,20 +890,20 @@
 						ordr: [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15],
 						of0: [
 							3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115,
-							131, 163, 195, 227, 258, 999, 999, 999,
+							131, 163, 195, 227, 258, 999, 999, 999
 						],
 						exb: [
 							0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0, 0,
-							0,
+							0
 						],
 						ldef: new r(32),
 						df0: [
 							1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537,
-							2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577, 65535, 65535,
+							2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577, 65535, 65535
 						],
 						dxb: [
 							0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12,
-							13, 13, 0, 0,
+							13, 13, 0, 0
 						],
 						ddef: new t(32),
 						flmap: new r(512),
@@ -923,7 +923,7 @@
 						ihst: new t(19),
 						lits: new t(15e3),
 						strt: new r(65536),
-						prev: new r(32768),
+						prev: new r(32768)
 					})),
 				(function () {
 					for (var e = UZIP.F.U, r = 0; r < 32768; r++) {
@@ -1441,17 +1441,17 @@
 					X: [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15],
 					S: [
 						3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131,
-						163, 195, 227, 258, 999, 999, 999,
+						163, 195, 227, 258, 999, 999, 999
 					],
 					T: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0, 0, 0],
 					q: new N(32),
 					p: [
 						1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049,
-						3073, 4097, 6145, 8193, 12289, 16385, 24577, 65535, 65535,
+						3073, 4097, 6145, 8193, 12289, 16385, 24577, 65535, 65535
 					],
 					z: [
 						0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13,
-						13, 0, 0,
+						13, 0, 0
 					],
 					c: new W(32),
 					J: new N(512),
@@ -1471,7 +1471,7 @@
 					a: new W(19),
 					t: new W(15e3),
 					k: new N(65536),
-					g: new N(32768),
+					g: new N(32768)
 				})),
 			(function () {
 				for (var e = H.H.m, r = 0; r < 32768; r++) {
@@ -1648,7 +1648,7 @@
 					return UPNG._bin.readASCII(e, r, t);
 				}
 				return a;
-			},
+			}
 		}),
 		(UPNG._copyTile = function (e, r, t, a, i, s, f, c, l) {
 			for (var u = Math.min(r, i), d = Math.min(t, s), h = 0, A = 0, v = 0; v < d; v++)
@@ -1722,7 +1722,7 @@
 					blend: 0,
 					dispose: 1,
 					bpp: Math.ceil(u / 8),
-					bpl: Math.ceil(d / 8),
+					bpl: Math.ceil(d / 8)
 				});
 			return UPNG.encode.compressPNG(l, 0, !0), UPNG.encode._main(l, r, t, f, c);
 		}),
@@ -1962,7 +1962,7 @@
 								x: O,
 								y: x,
 								width: Math.max(G.x + G.width, M.x + M.width) - O,
-								height: Math.max(G.y + G.height, M.y + M.height) - x,
+								height: Math.max(G.y + G.height, M.y + M.height) - x
 							};
 						(f[c - 1].dispose = 1),
 							c - 1 != 0 && UPNG.encode._updateFrame(e, r, t, f, c - 1, S, i),
@@ -2072,7 +2072,7 @@
 			},
 			crc: function crc(e, r, t) {
 				return 4294967295 ^ UPNG.crc.update(4294967295, e, r, t);
-			},
+			}
 		}),
 		(UPNG.quantize = function (e, r) {
 			var t,
@@ -2230,7 +2230,7 @@
 					r[12] - c * i * l,
 					r[13] - c * s * l,
 					r[14] - c * f * l,
-					r[15] - c * c * l,
+					r[15] - c * c * l
 				],
 				d = u,
 				h = UPNG.M4,
@@ -2261,7 +2261,7 @@
 						(Math.round(255 * g[2]) << 16) |
 						(Math.round(255 * g[1]) << 8) |
 						(Math.round(255 * g[0]) << 0)) >>>
-					0,
+					0
 			};
 		}),
 		(UPNG.M4 = {
@@ -2270,7 +2270,7 @@
 					e[0] * r[0] + e[1] * r[1] + e[2] * r[2] + e[3] * r[3],
 					e[4] * r[0] + e[5] * r[1] + e[6] * r[2] + e[7] * r[3],
 					e[8] * r[0] + e[9] * r[1] + e[10] * r[2] + e[11] * r[3],
-					e[12] * r[0] + e[13] * r[1] + e[14] * r[2] + e[15] * r[3],
+					e[12] * r[0] + e[13] * r[1] + e[14] * r[2] + e[15] * r[3]
 				];
 			},
 			dot: function dot(e, r) {
@@ -2278,7 +2278,7 @@
 			},
 			sml: function sml(e, r) {
 				return [e * r[0], e * r[1], e * r[2], e * r[3]];
-			},
+			}
 		}),
 		(UPNG.encode.concatRGBA = function (e) {
 			for (var r = 0, t = 0; t < e.length; t++) r += e[t].byteLength;
@@ -2306,7 +2306,7 @@
 			DESKTOP_SAFARI: "DESKTOP_SAFARI",
 			IE: "IE",
 			MOBILE_SAFARI: "MOBILE_SAFARI",
-			ETC: "ETC",
+			ETC: "ETC"
 		},
 		_BROWSER_NAME$CHROME$,
 		MAX_CANVAS_SIZE =
@@ -3072,7 +3072,7 @@
 					file: e,
 					id: i,
 					imageCompressionLibUrl: imageCompressionLibUrl,
-					options: _objectSpread2(_objectSpread2({}, r), {}, { onProgress: void 0, signal: void 0 }),
+					options: _objectSpread2(_objectSpread2({}, r), {}, { onProgress: void 0, signal: void 0 })
 				});
 		});
 	}

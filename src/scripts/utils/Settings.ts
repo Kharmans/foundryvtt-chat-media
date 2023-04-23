@@ -23,8 +23,8 @@ export const getSettings = () => [
 			type: Boolean,
 			default: true,
 			config: true,
-			requiresReload: true,
-		},
+			requiresReload: true
+		}
 	},
 	{
 		key: "uploadLocation",
@@ -51,9 +51,9 @@ export const getSettings = () => [
 
 				await createUploadFolder(location);
 				if (shouldChangeLocation) await setSetting("uploadLocation", location);
-			},
-		},
-	},
+			}
+		}
+	}
 ];
 
 export const registerSetting = (setting: { key: string; options: any }) => {

@@ -57,7 +57,7 @@ const uploadImage = async (saveValue: SaveValueType): Promise<string> => {
 		const compressedImage = await imageCompression(saveValue.file as File, {
 			maxSizeMB: 1.5,
 			useWebWorker: true,
-			alwaysKeepResolution: true,
+			alwaysKeepResolution: true
 		});
 		const newImage = new File([compressedImage as File], newName, { type: saveValue.type });
 

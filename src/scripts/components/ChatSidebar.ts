@@ -3,7 +3,7 @@ import {
 	getImageQueue,
 	processDropAndPasteImages,
 	removeAllFromQueue,
-	SaveValueType,
+	SaveValueType
 } from "../processors/FileProcessor";
 import { i18n } from "../utils/Utils";
 import { getUploadingStates } from "./Loader";
@@ -61,7 +61,7 @@ const emptyChatEventHandler = (sidebar: JQuery) => async (evt: KeyboardEvent) =>
 	const messageData = {
 		content: messageTemplate(imageQueue),
 		type: CONST.CHAT_MESSAGE_TYPES.OOC || 1,
-		user: (game as Game).user,
+		user: (game as Game).user
 	};
 	await ChatMessage.create(messageData);
 	removeAllFromQueue(sidebar);
