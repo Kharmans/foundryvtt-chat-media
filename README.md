@@ -63,13 +63,13 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 
 ## License
 
-- **[DFreds Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects)**: [MIT](https://github.com/DFreds/dfreds-convenient-effects/blob/main/LICENSE)
+- **[Chat Images](https://github.com/bmarian/chat-images)**: [MIT](https://github.com/bmarian/chat-images/blob/main/LICENSE)
 
 This package is under an [MIT](LICENSE) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
 ## Credits
 
-- [DFreds](https://github.com/DFreds) for the module [DFreds Convenient Effects](https://github.com/DFreds/dfreds-convenient-effects)
+- [bmarian](https://github.com/bmarian) for the module [Chat Images](https://github.com/bmarian/chat-images)
 
 ## Acknowledgements
 
