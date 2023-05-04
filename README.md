@@ -32,9 +32,6 @@ To install this module manually:
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
-# Example
-![usage](./wiki/example.gif)
-
 # Features
 
 ## Converting an url into an image
@@ -48,6 +45,10 @@ If you want to put a image on the chat just put
 ```
 /cvideo <URL TO VIDEO>
 ```
+
+## Upload image reference from local disk or with Drang and Drop (sadly only for images files)
+
+![usage](./wiki/example.gif)
 
 ## Prerequisites
 
