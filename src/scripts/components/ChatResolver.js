@@ -32,10 +32,12 @@ export class ChatResolver {
     cvideo: /(cvideo\s*)/gi,
   };
 
-  static imageReg = /((.*)\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|GIF|PNG|JPG|JPEG|WEBP|SVG|PSD|BMP|TIF))/gi;
+  static imageReg = /http((.*)\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|GIF|PNG|JPG|JPEG|WEBP|SVG|PSD|BMP|TIF))/gi;
+  static imageRegBase64 = /(data:image\/[^;]+;base64[^"]+)/gi;
   static imageMarkdownReg = /^(cimage\s+)\s*(.+?)\s*/gi;
 
-  static videoReg = /((.*)\.(i:webm|mp4|WEBM|MP$))/gi;
+  static videoReg = /http((.*)\.(i:webm|mp4|WEBM|MP$))/gi;
+  static videoRegBase64 = /(data:video\/[^;]+;base64[^"]+)/gi;
   static videoMarkdownReg = /^(cvideo\s+)\s*(.+?)\s*/gi;
 
   static CHAT_MESSAGE_SUB_TYPES = {
@@ -149,9 +151,14 @@ export class ChatResolver {
     const images = [];
     for (const src of imagesToCheck) {
       // Remove quotes or brackets around the src url
-      const srcCleaned = src.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
-      if (srcCleaned.match(ChatResolver.imageReg)) {
-        images.push(srcCleaned);
+      let srcCleaned = src;
+      srcCleaned = srcCleaned.replaceAll('data-src="', "");
+      srcCleaned = srcCleaned.replaceAll('src="', "");
+      srcCleaned = srcCleaned.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+      if (srcCleaned.match(ChatResolver.imageReg) || srcCleaned.match(ChatResolver.imageRegBase64)) {
+        if (!images.includes(srcCleaned) && !srcCleaned.includes("alt=")) {
+          images.push(srcCleaned);
+        }
       }
     }
     if (images?.length <= 0) {
@@ -162,7 +169,7 @@ export class ChatResolver {
       imageTemplate =
         imageTemplate +
         `<div class="chat-media-image">
-					<img data-src="${src}" src="${src}" alt="${i18n("unableToLoadImage")}" >
+					<img data-src="${src}" src="${src}" alt="${i18n("unableToLoadImage")}" />
 			</div>`;
     }
     return imageTemplate;
@@ -180,9 +187,14 @@ export class ChatResolver {
     const videos = [];
     for (const src of videosToCheck) {
       // Remove quotes or brackets around the src url
-      const srcCleaned = src.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
-      if (srcCleaned.match(ChatResolver.videoReg)) {
-        videos.push(srcCleaned);
+      let srcCleaned = src;
+      srcCleaned = srcCleaned.replaceAll('data-src="', "");
+      srcCleaned = srcCleaned.replaceAll('src="', "");
+      srcCleaned = srcCleaned.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+      if (srcCleaned.match(ChatResolver.videoReg) || srcCleaned.match(ChatResolver.videoRegBase64)) {
+        if (!videos.includes(srcCleaned) && !srcCleaned.includes("alt=")) {
+          videos.push(srcCleaned);
+        }
       }
     }
     if (videos?.length <= 0) {
@@ -245,6 +257,9 @@ export class ChatResolver {
     //   }
     // }
     // return [undefined, undefined]
+    if (!message) {
+      return message;
+    }
     for (const [rule, rgx] of Object.entries(ChatResolver.PATTERNS)) {
       // For multi-line matches, the first line must match
       if (this.MULTILINE_COMMANDS.has(rule)) {

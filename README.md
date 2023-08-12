@@ -39,11 +39,11 @@ To install this module manually:
 If you want to put a image on the chat just put
 
 ```
-/cimage <URL TO IMAGE>
+cimage <URL TO IMAGE>
 ```
 
 ```
-/cvideo <URL TO VIDEO>
+cvideo <URL TO VIDEO>
 ```
 
 ## Upload image reference from local disk or with Drang and Drop (sadly only for images files)

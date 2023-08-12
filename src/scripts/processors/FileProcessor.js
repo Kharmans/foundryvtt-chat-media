@@ -100,12 +100,12 @@ const addImageToQueue = async (saveValue, sidebar) => {
 };
 
 const filesFileReaderHandler = (file, sidebar) => async (evt) => {
-  const imageSrc = evt.targetReader?.result;
-  const saveValue = { type: file.type, name: file.name, imageSrc, id: randomString(), file };
+  const imageSrc = evt.target?.result;
+  const saveValue = { type: file.type, name: file.name, imageSrc: imageSrc, id: randomString(), file: file };
   await addImageToQueue(saveValue, sidebar);
 };
 
-export const processFiles = (filesList, sidebar) => {
+export const processFiles = (files, sidebar) => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const isImage = isFileImage(file);
@@ -113,7 +113,7 @@ export const processFiles = (filesList, sidebar) => {
     if (!isImage && !isVideo) {
       continue;
     }
-    const readerReader = new FileReader();
+    const reader = new FileReader();
     reader.addEventListener("load", filesFileReaderHandler(file, sidebar));
     reader.readAsDataURL(file);
   }
@@ -145,10 +145,10 @@ export const processDropAndPasteImages = (eventData, sidebar) => {
   }
 
   const extractFilesFromEventData = (eventData) => {
-    const itemsItemList = eventData.items;
+    const items = eventData.items;
     const files = [];
     for (let i = 0; i < items.length; i++) {
-      const itemItem = items[i];
+      const item = items[i];
       const isImage = isFileImage(item);
       const isVideo = isFileVideo(item);
       if (!isImage && !isVideo) {

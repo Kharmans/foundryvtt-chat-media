@@ -7,9 +7,10 @@ let hookIsHandlingTheMessage = false;
 let eventIsHandlingTheMessage = false;
 
 const imageTemplate = (imageProps) =>
-  `<div class="chat-media-image"><img data-src="${imageProps.imageSrc}" src="${imageProps.imageSrc}" alt="${
+  `<div class="chat-media-image">
+  <img data-src="${imageProps.imageSrc}" src="${imageProps.imageSrc}" alt="${
     imageProps.name || i18n("unableToLoadImage")
-  }"></div>`;
+  }" /></div>`;
 
 const messageTemplate = (imageQueue) => {
   const imageTemplates = imageQueue.map((imageProps) => imageTemplate(imageProps));
