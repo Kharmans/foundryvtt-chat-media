@@ -3,7 +3,7 @@
 	"name": "chat-media",
 	"title": "Chat Media",
 	"description": "Extends chat functionality with image and video support.",
-	"version": "3.2.1",
+	"version": "3.3.0",
 	"authors": [
 		{
 			"name": "Marian#8010",
@@ -60,17 +60,17 @@
 	"packs": [],
 	"systems": [],
 	"scripts": [],
-	"esmodules": ["chat-media.js"],
+	"esmodules": ["module.js"],
 	"styles": ["styles/chat-media.css", "styles/chat-message.css", "styles/spinner.css"],
 	"compatibility": {
-		"minimum": 10,
-		"verified": 10,
-		"maximum": 10
+		"minimum": 11,
+		"verified": 11,
+		"maximum": 11
 	},
 	"manifestPlusVersion": "1.2.1",
 	"url": "https://github.com/p4535992/foundryvtt-chat-media",
-	"manifest": "https://github.com/p4535992/foundryvtt-chat-media/releases/latest/download/module.json",
-	"download": "https://github.com/p4535992/foundryvtt-chat-media/releases/latest/download/module.zip",
+	"manifest": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/v3.3.0/module.json",
+	"download": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/v3.3.0/module.zip",
 	"readme": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/README.md",
 	"changelog": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/CHANGELOG.md",
 	"bugs": "https://github.com/p4535992/foundryvtt-chat-media/issues",

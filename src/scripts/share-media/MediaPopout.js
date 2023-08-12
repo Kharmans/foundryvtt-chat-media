@@ -16,16 +16,16 @@ export default class MediaPopout extends ImagePopout {
 
 	async getData(options) {
 		let data = await super.getData();
-		//@ts-ignore
+		
 		data.isVideo = this.video;
 		if (this.video) {
-			//@ts-ignore
+			
 			data.video = data.image;
-			//@ts-ignore
+			
 			data.isLoop = true;
-			//@ts-ignore
+			
 			data.isMuted = false;
-			//@ts-ignore
+			
 			data.videoType = getVideoType(data.video);
 		}
 

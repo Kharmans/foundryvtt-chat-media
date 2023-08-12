@@ -14,9 +14,9 @@ const registerSettings = () => {
 Hooks.once("init", async () => {
 	registerSettings();
 	await createUploadFolder();
-	//@ts-ignore
+	
 	ChatLog.MESSAGE_PATTERNS["cimage"] = new RegExp(ChatResolver.PATTERNS.cimage);
-	//@ts-ignore
+	
 	ChatLog.MESSAGE_PATTERNS["cvideo"] = new RegExp(ChatResolver.PATTERNS.cvideo);
 });
 

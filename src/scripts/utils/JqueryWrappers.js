@@ -5,7 +5,7 @@ export const find = (selector: string, parentNode?: JQuery): JQuery =>
 	parentNode ? parentNode.find(selector) : $(selector);
 export const append = (parentNode: JQuery, newNode: JQuery): JQuery => parentNode.append(newNode);
 export const on = (parentNode: JQuery, eventType: string, eventFunction: Function): JQuery =>
-	// @ts-ignore
+	
 	parentNode.on(eventType, eventFunction);
 export const trigger = (parentNode: JQuery, eventType: string): JQuery => parentNode.trigger(eventType);
 export const removeClass = (parentNode: JQuery, classString: string): JQuery => parentNode.removeClass(classString);
@@ -16,5 +16,5 @@ export const attr = (node: JQuery, attrId: string, attrValue?: any): string | JQ
 export const removeAttr = (node: JQuery, attrId: string): JQuery => node.removeAttr(attrId);
 export const focus = (node: JQuery): JQuery => node.focus();
 export const scrollBottom = (node: JQuery): JQuery => node.animate({ scrollTop: node.height() });
-// @ts-ignore
+
 export const each = (node: JQuery, handler: Function): JQuery => node.each(handler);

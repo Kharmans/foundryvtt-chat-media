@@ -62,7 +62,7 @@ const uploadImage = async (saveValue: SaveValueType): Promise<string> => {
 		const newImage = new File([compressedImage as File], newName, { type: saveValue.type });
 
 		const uploadLocation = getSetting("uploadLocation");
-		// @ts-ignore
+		
 		const imageLocation = await FilePicker.upload(ORIGIN_FOLDER, uploadLocation, newImage, {}, { notify: false });
 
 		if (!imageLocation || !(imageLocation as FilePicker.UploadResult)?.path) return saveValue.imageSrc as string;
@@ -127,7 +127,7 @@ export const processDropAndPasteImages = (eventData: DataTransfer, sidebar: JQue
 		const images = DOM_PARSER.parseFromString(html, "text/html").querySelectorAll("img");
 		if (!images || !images.length) return null;
 
-		// @ts-ignore
+		
 		const imageUrls = [...images].map((img) => img.src as string);
 		const imagesContainRestrictedDomains = imageUrls.some((iu) => RESTRICTED_DOMAINS.some((rd) => iu.includes(rd)));
 		return imagesContainRestrictedDomains ? null : imageUrls;

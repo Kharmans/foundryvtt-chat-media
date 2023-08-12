@@ -215,7 +215,7 @@ export class ChatResolver {
 			}
 		}
 
-		// @ts-ignore
+		
 		switch (messageData.message.flags["chat-media"]?.subType) {
 			case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
 				html.addClass("chat-media-image");
