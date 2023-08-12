@@ -2,62 +2,62 @@
 @import "chat-message";
 
 #chat-controls {
-	& .chat-media-control-buttons-gm {
-		flex: 0 0 72px;
-	}
+  & .chat-media-control-buttons-gm {
+    flex: 0 0 72px;
+  }
 
-	& .chat-media-control-buttons-p {
-		flex: 0 0 24px;
-	}
+  & .chat-media-control-buttons-p {
+    flex: 0 0 24px;
+  }
 }
 
 #chat-media-upload-image-hidden-input {
-	opacity: 0;
-	width: 0;
+  opacity: 0;
+  width: 0;
 }
 
 #chat-media-chat-upload-area {
-	flex: unset;
-	max-height: fit-content;
+  flex: unset;
+  max-height: fit-content;
 
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	align-content: center;
-	align-items: center;
-	overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  overflow-y: auto;
 
-	margin-left: 5px;
-	margin-right: 7px;
+  margin-left: 5px;
+  margin-right: 7px;
 }
 
 .chat-media-upload-area-image {
-	display: flex;
-	position: relative;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 
-	min-height: 100px;
-	min-width: 100px;
-	margin: 3px;
+  min-height: 100px;
+  min-width: 100px;
+  margin: 3px;
 }
 
 .chat-media-image-preview {
-	height: 100px;
-	width: 100px;
-	object-fit: cover;
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
 }
 
 .chat-media-remove-image-icon {
-	position: absolute;
-	font-size: 20px;
-	color: white;
-	cursor: pointer;
-	top: 3px;
-	right: 0;
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  top: 3px;
+  right: 0;
 
-	&:hover {
-		text-shadow: 0 0 8px var(--color-shadow-primary);
-	}
+  &:hover {
+    text-shadow: 0 0 8px var(--color-shadow-primary);
+  }
 }

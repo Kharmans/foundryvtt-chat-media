@@ -46,7 +46,7 @@
 		"dev": "vite",
 		"eslint": "eslint .",
 		"prepare": "husky install",
-		"prettier-format": "prettier --config .prettierrc --write \"./src/**/*.{ts,js,mjs,json,scss,css}\""
+		"prettier-format": "prettier --config .prettierrc --write \"./src/**/*.{js,mjs,json,scss,css}\""
 	},
 	"lint-staged": {
 		"*.{js,css}": "prettier --write"

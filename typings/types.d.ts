@@ -1,5 +1,5 @@
 type EasingOptions = {
-  ease?: string;
+  ease= "";
   delay?: number;
 };
 
@@ -10,7 +10,7 @@ type EasingOptionsWithTarget = EasingOptions & {
 type ExtendedEasingOptions = EasingOptions & {
   duration?: number;
   offset?: number;
-  towardsCenter?: boolean;
+  towardsCenter= false;
 };
 
 type Vector2 = {
@@ -44,7 +44,7 @@ declare class CoreMethods {
   /**
    * Creates a section that will run a macro based on a name, id, UUID, or a direct reference to a macro.
    */
-  macro(inMacro: string | Macro, ...arguments: any): Sequence;
+  macro(inMacro | Macro, ...arguments): Sequence;
 
   /**
    * Causes the sequence to wait after the last section for as many milliseconds as you pass to this method. If given
@@ -60,19 +60,19 @@ declare class CoreMethods {
   /**
    * Creates an effect section. Until you call any other sections you'll be working on the Effect section.
    */
-  effect(filePath?: string): EffectSection;
+  effect(filePath= ""): EffectSection;
 
   /**
    * Creates a sound section. Until you call any other sections you'll be working on the Sound section.
    */
-  sound(filePath?: string): SoundSection;
+  sound(filePath= ""): SoundSection;
 
   /**
    * Creates a scrolling text. Until you call any other sections you'll be working on the Scrolling Text section.
    */
   scrollingText(
     inTarget?: VisibleFoundryTypes | Vector2,
-    inText?: string,
+    inText= "",
     inTextStyle?: object
   ): ScrollingTextSection;
 
@@ -96,14 +96,14 @@ declare class CoreMethods {
    * Appends a preset to the current sequence in place
    */
   preset(
-    presetName: string,
-    args?: any
+    presetName,
+    args?
   ): Sequence | EffectSection | AnimationSection | SoundSection;
 
   /**
    * Plays all of this sequence's sections, resolves to the sequence instance
    */
-  play(inOptions?: { remote?: boolean }): Promise<Sequence>;
+  play(inOptions?: { remote= false }): Promise<Sequence>;
 
   /**
    * Turns the sequence into an array of objects to be reconstructed later
@@ -124,13 +124,13 @@ declare class Sequence {
    * include the module name, which lets you and other users know which module caused the error. The secondary argument
    * is an object that can contain a number of optional arguments.
    */
-  constructor(inOptions?: { inModuleName?: string; softFail?: boolean });
+  constructor(inOptions?: { inModuleName= ""; softFail= false });
 }
 
 declare abstract class Section<T> {
-  readonly shouldWaitUntilFinished: boolean;
-  readonly shouldAsync: boolean;
-  readonly shouldPlay: boolean;
+  readonly shouldWaitUntilFinished;
+  readonly shouldAsync;
+  readonly shouldPlay;
 
   /**
    * Causes the section to finish running before starting the next section.
@@ -158,7 +158,7 @@ declare abstract class Section<T> {
    * Causes the effect or sound to not play, and skip all delays, repetitions, waits, etc. If you pass a function,
    * the function should return something false-y if you do not want the effect or sound to play.
    */
-  playIf(condition: boolean | (() => boolean)): T;
+  playIf(condition | (() => boolean)): T;
 
   /**
    * Delays the effect or sound from being played for a set amount of milliseconds. If given a second number, a
@@ -174,7 +174,7 @@ declare abstract class Section<T> {
   /**
    * Appends a preset to the current sequence in place
    */
-  preset(presetName: string, args?: any): T;
+  preset(presetName, args?): T;
 }
 
 declare abstract class HasAudio<T> {
@@ -199,13 +199,13 @@ declare abstract class HasFiles<T> {
    * Declares which file to be played. This may also be an array of paths, which will be randomly picked from each
    * time the section is played.
    */
-  file(inFile: string | string[]): T;
+  file(inFile | string[]): T;
 
   /**
    * Defines the base folder that will prepend to the file path. This is mainly just useful to make the file
    * path easier to manage.
    */
-  baseFolder(inBaseFolder: string): T;
+  baseFolder(inBaseFolder): T;
 
   /**
    * Sets the Mustache of the filepath. This is applied after the randomization of the filepath, if available.
@@ -249,7 +249,7 @@ declare abstract class HasRotation<T> {
   /**
    * The object gets a random rotation, which means it should not be used with .stretchTo()
    */
-  randomRotation(inBool?: boolean): T;
+  randomRotation(inBool= false): T;
 
   /**
    * Sets the rotation of the effect or animation, which is added on top of the calculated rotation after .rotateTowards() or .randomRotation()
@@ -325,12 +325,12 @@ declare abstract class HasUsers<T> {
   /**
    * Causes section to be executed only locally, and not push to other connected clients.
    */
-  locally(inLocally?: boolean): T;
+  locally(inLocally= false): T;
 
   /**
    * Causes the section to be executed for only a set of users.
    */
-  forUsers(inUsers: string | User | Array<string | User>): T;
+  forUsers(inUsers | User | Array<string | User>): T;
 }
 
 declare abstract class HasAnimations<T> {
@@ -338,16 +338,16 @@ declare abstract class HasAnimations<T> {
    * Animates a property on the target of the animation.
    */
   animateProperty(
-    inTarget: string,
-    inPropertyName: string,
+    inTarget,
+    inPropertyName,
     inOptions: {
       duration: number;
       from: number;
       to: number;
       delay?: number;
-      ease?: string;
-      fromEnd?: boolean;
-      gridUnits?: boolean;
+      ease= "";
+      fromEnd= false;
+      gridUnits= false;
     }
   ): this;
 
@@ -355,19 +355,19 @@ declare abstract class HasAnimations<T> {
    * Loops a property between a set of values on the target
    */
   loopProperty(
-    inTarget: string,
-    inPropertyName: string,
+    inTarget,
+    inPropertyName,
     inOptions: {
       duration: number;
       from?: number;
       to?: number;
       values?: Array<number>;
       loops?: number;
-      pingPong?: boolean;
+      pingPong= false;
       delay?: number;
-      ease?: string;
-      fromEnd?: boolean;
-      gridUnits?: boolean;
+      ease= "";
+      fromEnd= false;
+      gridUnits= false;
     }
   ): this;
 }
@@ -376,7 +376,7 @@ declare abstract class HasFilters<T> {
   /**
    * Applies a files
    */
-  filter(inFilterName: string, inData?: {}, inName?: string): this;
+  filter(inFilterName, inData?: {}, inName= ""): this;
 }
 
 declare abstract class HasLocation<T> {
@@ -387,11 +387,11 @@ declare abstract class HasLocation<T> {
   atLocation(
     inLocation: VisibleFoundryTypes | Vector2 | string,
     inOptions?: {
-      cacheLocation?: boolean;
+      cacheLocation= false;
       offset?: Vector2;
       randomOffset?: number;
-      gridUnits?: boolean;
-      local?: boolean;
+      gridUnits= false;
+      local= false;
     }
   ): this;
 }
@@ -401,7 +401,7 @@ declare abstract class HasText<T> {
    * Creates a text element, attached to the sprite. The options for the text are available here:
    * https://pixijs.io/pixi-text-style/
    */
-  text(inText: string, inOptions?: object): this;
+  text(inText, inOptions?: object): this;
 }
 
 interface AnimatedSection<T> {}
@@ -427,7 +427,7 @@ declare abstract class AnimationSection {
    */
   teleportTo(
     inTarget: VisibleFoundryTypes | Vector2 | string,
-    options?: { delay: number; relativeToCenter: boolean }
+    options?: { delay: number; relativeToCenter }
   ): this;
 
   /**
@@ -437,11 +437,11 @@ declare abstract class AnimationSection {
     inTarget: VisibleFoundryTypes | Vector2 | string,
     options?: {
       duration: Number;
-      ease: string;
+      ease;
       delay: number;
       rotationOffset: number;
-      towardsCenter: boolean;
-      cacheLocation: boolean;
+      towardsCenter;
+      cacheLocation;
     }
   ): this;
 
@@ -453,22 +453,22 @@ declare abstract class AnimationSection {
   /**
    * Causes the movement or teleportation to pick the closest non-intersecting square, if the target is a token or tile
    */
-  closestSquare(inBool?: boolean): this;
+  closestSquare(inBool= false): this;
 
   /**
    * Causes the final location to be snapped to the grid
    */
-  snapToGrid(inBool?: boolean): this;
+  snapToGrid(inBool= false): this;
 
   /**
    * Causes the object to become hidden
    */
-  hide(inBool?: boolean): this;
+  hide(inBool= false): this;
 
   /**
    * Causes the object to become visible
    */
-  show(inBool?: boolean): this;
+  show(inBool= false): this;
 }
 
 declare interface EffectSection
@@ -494,15 +494,15 @@ declare abstract class EffectSection {
    * Causes the effect's position to be stored and can then be used  with .atLocation(), .stretchTowards(),
    * and .rotateTowards() to refer to previous effects' locations
    */
-  name(inName: string): this;
+  name(inName): this;
 
   /**
    * Causes the effect to persist indefinitely on the canvas until _ended via TokenFactionsEffectManager.endAllEffects() or
    * name the effect with .name() and then end it through TokenFactionsEffectManager.endEffect()
    */
   persist(
-    inBool?: boolean,
-    inOptions?: { persistTokenPrototype: boolean }
+    inBool= false,
+    inOptions?: { persistTokenPrototype }
   ): this;
 
   /**
@@ -514,7 +514,7 @@ declare abstract class EffectSection {
   /**
    * Causes the effect to target a location close to the .stretchTowards() location, but not on it.
    */
-  missed(inBool?: boolean): this;
+  missed(inBool= false): this;
 
   /**
    * Adds a function that will run at the end of the effect serialization step, but before it is played. Allows direct
@@ -530,16 +530,16 @@ declare abstract class EffectSection {
   attachTo(
     inLocation: VisibleFoundryTypes | Vector2 | string,
     inOptions?: {
-      align?: string;
-      edge?: string;
-      bindVisibility?: boolean;
-      bindAlpha?: boolean;
-      bindElevation?: boolean;
-      followRotation?: boolean;
+      align= "";
+      edge= "";
+      bindVisibility= false;
+      bindAlpha= false;
+      bindElevation= false;
+      followRotation= false;
       offset?: Vector2;
       randomOffset?: number;
-      gridUnits?: boolean;
-      local?: boolean;
+      gridUnits= false;
+      local= false;
     }
   ): this;
 
@@ -550,16 +550,16 @@ declare abstract class EffectSection {
   stretchTo(
     inLocation: VisibleFoundryTypes | Vector2 | string,
     inOptions?: {
-      cacheLocation?: boolean;
-      attachTo?: boolean;
-      onlyX?: boolean;
-      tiling?: boolean;
+      cacheLocation= false;
+      attachTo= false;
+      onlyX= false;
+      tiling= false;
       offset?: Vector2;
       randomOffset?: number;
-      gridUnits?: boolean;
-      local?: boolean;
-      requiresLineOfSight?: boolean;
-      hideLineOfSight?: boolean;
+      gridUnits= false;
+      local= false;
+      requiresLineOfSight= false;
+      hideLineOfSight= false;
     }
   ): this;
 
@@ -570,12 +570,12 @@ declare abstract class EffectSection {
     inLocation: VisibleFoundryTypes | Vector2 | string,
     inOptions?: {
       rotationOffset?: number;
-      cacheLocation?: boolean;
-      attachTo?: boolean;
+      cacheLocation= false;
+      attachTo= false;
       offset?: Vector2;
       randomOffset?: number;
-      gridUnits?: boolean;
-      local?: boolean;
+      gridUnits= false;
+      local= false;
     }
   ): this;
 
@@ -585,11 +585,11 @@ declare abstract class EffectSection {
   from(
     inLocation: Token | Tile | TokenDocument | TileDocument,
     inOptions?: {
-      cacheLocation?: boolean;
+      cacheLocation= false;
       offset?: Vector2;
       randomOffset?: number;
-      gridUnits?: boolean;
-      local?: boolean;
+      gridUnits= false;
+      local= false;
     }
   ): this;
 
@@ -603,19 +603,19 @@ declare abstract class EffectSection {
       width?: number;
       height?: number;
       points?: Array<[number, number] | { x: number; y: number }>;
-      gridUnits?: boolean;
-      name?: string;
-      fillColor?: string | number;
+      gridUnits= false;
+      name= "";
+      fillColor= "" | number;
       fillAlpha?: number;
       alpha?: number;
       lineSize?: number;
-      lineColor?: string | number;
+      lineColor= "" | number;
       offset?: {
         x?: number;
         y?: number;
-        gridUnits?: boolean;
+        gridUnits= false;
       };
-      isMask?: boolean;
+      isMask= false;
     }
   );
 
@@ -625,15 +625,15 @@ declare abstract class EffectSection {
   spriteOffset(
     inOffset: Vector2,
     inOptions?: {
-      gridUnits?: boolean;
-      local?: boolean;
+      gridUnits= false;
+      local= false;
     }
   ): this;
 
   /**
    * Causes the final effect location to be snapped to the grid
    */
-  snapToGrid(inBool?: boolean): this;
+  snapToGrid(inBool= false): this;
 
   /**
    * Causes the effect to be scaled to the target object's width
@@ -641,8 +641,8 @@ declare abstract class EffectSection {
   scaleToObject(
     inScale?: number,
     inOptions?: {
-      uniform?: boolean;
-      considerTokenScale?: boolean;
+      uniform= false;
+      considerTokenScale= false;
     }
   ): this;
 
@@ -652,7 +652,7 @@ declare abstract class EffectSection {
   size(
     inSize: Number | Size,
     inOptions?: {
-      gridUnits: boolean;
+      gridUnits;
     }
   ): this;
 
@@ -701,45 +701,45 @@ declare abstract class EffectSection {
    * The sprite gets a randomized flipped X scale. If the scale on that axis was 1, it can
    * become 1 or -1, effectively mirroring the sprite on its horizontal axis
    */
-  randomizeMirrorX(inBool?: boolean): this;
+  randomizeMirrorX(inBool= false): this;
 
   /**
    * The sprite gets a randomized flipped Y scale. If the scale on that axis was 1, it can
    * become 1 or -1, effectively mirroring the sprite on its vertical axis
    */
-  randomizeMirrorY(inBool?: boolean): this;
+  randomizeMirrorY(inBool= false): this;
 
   /**
    * The sprite gets a flipped X scale. If the scale on that axis was 1, it will become 1 or -1, effectively
    * mirroring the sprite on its horizontal axis
    */
-  mirrorX(inBool?: boolean): this;
+  mirrorX(inBool= false): this;
 
   /**
    * The sprite gets a flipped Y scale. If the scale on that axis was 1, it will become 1 or -1, effectively
    * mirroring the sprite on its vertical axis
    */
-  mirrorY(inBool?: boolean): this;
+  mirrorY(inBool= false): this;
 
   /**
    * Causes the effect to play beneath most tokens
    */
-  belowTokens(inBool?: boolean): this;
+  belowTokens(inBool= false): this;
 
   /**
    * Causes the effect to play beneath most tiles
    */
-  belowTiles(inBool?: boolean): this;
+  belowTiles(inBool= false): this;
 
   /**
    * Causes the effect to play on top of the vision mask
    */
-  aboveLighting(inBool?: boolean): this;
+  aboveLighting(inBool= false): this;
 
   /**
    * Changes the effect's elevation
    */
-  elevation(inElevation?: number, inOptions?: { absolute: boolean }): this;
+  elevation(inElevation?: number, inOptions?: { absolute }): this;
 
   /**
    * Sets the zIndex of the effect, potentially displaying it on top of other effects the same elevation
@@ -759,27 +759,27 @@ declare abstract class EffectSection {
   /**
    * Causes the effect to not rotate should its containers rotate
    */
-  zeroSpriteRotation(inBool?: boolean): this;
+  zeroSpriteRotation(inBool= false): this;
 
   /**
    * If the effect would loop due to its duration or persistence, this causes it not to
    */
-  noLoop(inBool?: boolean): this;
+  noLoop(inBool= false): this;
 
   /**
    * Causes the effect to not show up in the Effect Manager UI - DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING
    */
-  private(inBool?: boolean): this;
+  private(inBool= false): this;
 
   /**
    * Causes the effect to be played in screen space instead of world space (where tokens are)
    */
-  screenSpace(inBool?: boolean): this;
+  screenSpace(inBool= false): this;
 
   /**
    * Causes the effect to be played above all of the UI elements
    */
-  screenSpaceAboveUI(inBool?: boolean): this;
+  screenSpaceAboveUI(inBool= false): this;
 
   /**
    * Positions the effect in a screen space position, offset from its .screenSpaceAnchor()
@@ -797,10 +797,10 @@ declare abstract class EffectSection {
   screenSpaceScale(inOptions: {
     x?: number;
     y?: number;
-    fitX?: boolean;
-    fitY?: boolean;
-    ratioX?: boolean;
-    ratioY?: boolean;
+    fitX= false;
+    fitY= false;
+    ratioX= false;
+    ratioY= false;
   }): this;
 
   /**
@@ -808,7 +808,7 @@ declare abstract class EffectSection {
    *
    * The method accepts a string or a Document that has an UUID.
    */
-  origin(inOrigin: string | foundry.abstract.Document): this;
+  origin(inOrigin | foundry.abstract.Document): this;
 
   /**
    * Ties the effect to any number of documents in Foundry - if those get deleted, the effect is ended.
@@ -830,7 +830,7 @@ declare abstract class EffectSection {
   /**
    * Causes the effect to be visible through walls
    */
-  xray(inBool?: boolean): this;
+  xray(inBool= false): this;
 }
 
 declare interface SoundSection
@@ -859,12 +859,12 @@ declare abstract class ScrollingTextSection {
   /**
    * The original anchor point where the text appears
    */
-  anchor(inAnchor: string | number): this;
+  anchor(inAnchor | number): this;
 
   /**
    * The direction in which the text scrolls
    */
-  direction(inDirection: string | number): this;
+  direction(inDirection | number): this;
 
   /**
    * An amount of randomization between [0, 1] applied to the initial position
@@ -903,7 +903,7 @@ declare abstract class CanvasPanSection {
     frequency?: number,
     fadeInDuration?: number,
     fadeOutDuration?: number,
-    rotation?: boolean,
+    rotation= false,
   }): this;
 }
 
@@ -914,27 +914,27 @@ declare abstract class TokenFactionsDatabase {
    *  Registers a set of entries to the database on the given module name
    */
   registerEntries(
-    inModuleName: string,
+    inModuleName,
     inEntries: object,
-    isPrivate?: boolean
-  ): boolean;
+    isPrivate= false
+  );
 
   /**
    *  Validates the entries under a certain module name, checking whether paths to assets are correct or not
    */
-  validateEntries(inModuleName: string): Promise<void>;
+  validateEntries(inModuleName): Promise<void>;
 
   /**
    *  Quickly checks if the entry exists in the database
    */
-  entryExists(inString: string): boolean;
+  entryExists(inString);
 
   /**
    *  Gets the entry in the database by a dot-notated string
    */
   getEntry(
-    inString: string,
-    inOptions?: { softFail?: boolean }
+    inString,
+    inOptions?: { softFail= false }
   ): TokenFactionsFile | Array<TokenFactionsFile> | Boolean;
 
   /**
@@ -950,7 +950,7 @@ declare abstract class TokenFactionsDatabase {
   /**
    *  Get all valid entries under a certain path
    */
-  searchFor(inPath: string): Array<string> | boolean;
+  searchFor(inPath): Array<string> | boolean;
 }
 
 declare abstract class TokenFactionsPreloader {
@@ -958,16 +958,16 @@ declare abstract class TokenFactionsPreloader {
    * Causes each connected client (including the caller) to fetch and cache the provided file(s) locally, vastly improving loading speed of those files.
    */
   preload(
-    inSrc: string | Array<string>,
-    showProgressBar?: boolean
+    inSrc | Array<string>,
+    showProgressBar= false
   ): Promise<void>;
 
   /**
    * Caches provided file(s) locally, vastly improving loading speed of those files.
    */
   preloadForClients(
-    inSrc: string | Array<string>,
-    showProgressBar?: boolean
+    inSrc | Array<string>,
+    showProgressBar= false
   ): Promise<void>;
 }
 
@@ -985,7 +985,7 @@ declare abstract class TokenFactionsHelpers {
   /**
    * This function interpolates between p1 and p2 based on a normalized value of t, determined by the ease provided (string or function)
    */
-  interpolate(p1: number, p2: number, t: number, ease?: string): number;
+  interpolate(p1: number, p2: number, t: number, ease= ""): number;
 
   /**
    * Returns a floating point number between a minimum and maximum value
@@ -1007,16 +1007,16 @@ declare abstract class TokenFactionsHelpers {
    */
   random_array_element(
     inArray: Array<any>,
-    inOptions?: { recurse?: boolean }
-  ): any;
+    inOptions?: { recurse= false }
+  );
 
   /**
    *  Returns a random element in the given object
    */
   random_object_element(
     inObject: object,
-    inOptions?: { recurse?: boolean }
-  ): any;
+    inOptions?: { recurse= false }
+  );
 
   /**
    *  Turns an array containing multiples of the same string, objects, etc, and removes duplications, and returns a fresh array
@@ -1031,11 +1031,11 @@ declare abstract class TokenFactionsSectionManager {
    * Registers a class by a name that will then be available through the TokenFactions
    */
   registerSection(
-    inModuleName: string,
-    inMethodName: string,
+    inModuleName,
+    inMethodName,
     inClass: Class,
-    overwrite?: boolean
-  ): boolean;
+    overwrite= false
+  );
 }
 
 declare abstract class TokenFactionsDatabaseViewer {
@@ -1067,40 +1067,40 @@ declare abstract class TokenFactionsEffectManager {
    * Get effects that are playing on the canvas based on a set of filters
    */
   getEffects(options: {
-    object?: string | VisibleFoundryTypes;
-    name?: string;
-    sceneId?: string;
+    object= "" | VisibleFoundryTypes;
+    name= "";
+    sceneId= "";
   }): Array<any>;
 
   /**
    * Updates effects based on a set of filters
    */
   updateEffects(options: {
-    object?: string | VisibleFoundryTypes;
-    name?: string;
-    sceneId?: string;
-    effects: string | CanvasEffect | Array<string> | Array<CanvasEffect>;
+    object= "" | VisibleFoundryTypes;
+    name= "";
+    sceneId= "";
+    effects | CanvasEffect | Array<string> | Array<CanvasEffect>;
   }): Promise<Array<any>>;
 
   /**
    * End effects that are playing on the canvas based on a set of filters
    */
   endEffects(options: {
-    object?: string | VisibleFoundryTypes;
-    name?: string;
-    sceneId?: string;
-    effects: string | CanvasEffect | Array<string> | Array<CanvasEffect>;
+    object= "" | VisibleFoundryTypes;
+    name= "";
+    sceneId= "";
+    effects | CanvasEffect | Array<string> | Array<CanvasEffect>;
   }): Promise<void>;
 
   /**
    * End all effects that are playing on the canvas
    */
-  endAllEffects(inSceneId?: string, push?: boolean): Promise<void>;
+  endAllEffects(inSceneId= "", push= false): Promise<void>;
 
   /**
    * If an effect has been named its position will be cached, which can be retrieved with this method
    */
-  getEffectPositionByName(inName: string): Vector2;
+  getEffectPositionByName(inName): Vector2;
 }
 
 declare abstract class TokenFactionsPresets {
@@ -1108,9 +1108,9 @@ declare abstract class TokenFactionsPresets {
    * Adds a preset that can then be used in sequences through .preset()
    */
   add(
-    inName: string,
+    inName,
     inFunction: Function,
-    overwrite?: boolean
+    overwrite= false
   ): Map<string, Function>;
 
   /**
@@ -1121,7 +1121,7 @@ declare abstract class TokenFactionsPresets {
   /**
    * Retrieves preset based on its name
    */
-  get(name: string): Function;
+  get(name): Function;
 }
 
 declare namespace TokenFactions {
@@ -1134,8 +1134,8 @@ declare namespace TokenFactions {
   const SectionManager: TokenFactionsSectionManager;
   const EffectManager: TokenFactionsEffectManager;
   function registerEase(
-    easeName: string,
+    easeName,
     easeFunction: Function,
-    overwrite?: boolean
+    overwrite= false
   );
 }

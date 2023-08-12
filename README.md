@@ -107,6 +107,7 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 ## License
 
 - **[Chat Images](https://github.com/bmarian/chat-images)**: [MIT](https://github.com/bmarian/chat-images/blob/main/LICENSE)
+- **[Browser Image Compression](https://github.com/Donaldcwl/browser-image-compression)**: [MIT](https://github.com/Donaldcwl/browser-image-compression/blob/master/LICENSE)
 
 This package is under an [MIT](LICENSE) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
