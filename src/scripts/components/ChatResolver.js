@@ -96,6 +96,9 @@ export class ChatResolver {
   }
 
   static onPreCreateChatMessage(chatMessage, messageB, messageOptions) {
+    if (!messageB) {
+      return;
+    }
     const messageData = messageB;
     const message = messageB.content ? messageB.content : messageB;
 
