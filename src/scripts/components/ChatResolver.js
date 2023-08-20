@@ -103,7 +103,11 @@ export class ChatResolver {
     const message = messageB.content ? messageB.content : messageB;
 
     if (!messageData.flags) {
-      if (chatMessage?.content && $(chatMessage.content)?.find(".chat-media-image")) {
+      if (
+        chatMessage?.content &&
+        (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
+        $(chatMessage.content)?.find(".chat-media-image")
+      ) {
         messageData.flags ??= {};
         messageData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
@@ -222,7 +226,11 @@ export class ChatResolver {
 
   static onRenderChatMessage(chatMessage, html, messageData) {
     if (!messageData.message.flags) {
-      if (chatMessage?.content && $(chatMessage.content).find(".chat-media-image")) {
+      if (
+        chatMessage?.content &&
+        (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
+        $(chatMessage.content).find(".chat-media-image")
+      ) {
         messageData.message.flags ??= {};
         messageData.message.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
