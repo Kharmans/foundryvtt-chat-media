@@ -102,6 +102,9 @@ export class ChatResolver {
     const messageData = messageB;
     const message = messageB.content ? messageB.content : messageB;
 
+    if (!messageData) {
+      return;
+    }
     if (!messageData.flags) {
       if (
         chatMessage?.content &&
@@ -117,7 +120,24 @@ export class ChatResolver {
       // 	return message;
       // }
     }
+    if (!messageData) {
+      return;
+    }
+    if (!messageData.flags) {
+      if (
+        chatMessage?.content &&
+        (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
+        $(chatMessage.content)?.find(".chat-media-image")
+      ) {
+        messageData.flags ??= {};
+        messageData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
+        messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+      }
+      // else {
+      // 	return message;
+      // }
+    }
     switch (messageData.flags["chat-media"]?.subType) {
       case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
         const messageTmp = message.startsWith("cimage") ? message : "cimage " + message;
