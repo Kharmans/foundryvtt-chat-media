@@ -60,8 +60,28 @@ export class ChatResolver {
         // Remove quotes or brackets around the speaker's name.
         const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
 
+        const newMessage = message.replaceAll(ChatResolver._REPLACE_PATTERNS.cimage, "");
+        // split by one or more whitespace characters regex - \s+
+        const imagesToCheck = newMessage.split(/\s+/);
+        const images = [];
+        for (const src of imagesToCheck) {
+          // Remove quotes or brackets around the src url
+          let srcCleaned = src;
+          srcCleaned = srcCleaned.replaceAll('data-src="', "");
+          srcCleaned = srcCleaned.replaceAll('src="', "");
+          srcCleaned = srcCleaned.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+          if (srcCleaned.match(ChatResolver.imageReg) || srcCleaned.match(ChatResolver.imageRegBase64)) {
+            if (!images.includes(srcCleaned) && !srcCleaned.includes("alt=")) {
+              images.push(srcCleaned);
+            }
+          }
+        }
+
         chatData.flags ??= {};
-        chatData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+        chatData.flags["chat-media"] = {
+          urls: images.toString(),
+          subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE,
+        };
 
         chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
         chatData.speaker = { alias: alias, scene: game.user.viewedScene };
@@ -79,8 +99,28 @@ export class ChatResolver {
         // Remove quotes or brackets around the speaker's name.
         const alias = match[2].replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
 
+        const newMessage = message.replaceAll(ChatResolver._REPLACE_PATTERNS.cvideo, "");
+        // split by one or more whitespace characters regex - \s+
+        const videosToCheck = newMessage.split(/\s+/);
+        const videos = [];
+        for (const src of videosToCheck) {
+          // Remove quotes or brackets around the src url
+          let srcCleaned = src;
+          srcCleaned = srcCleaned.replaceAll('data-src="', "");
+          srcCleaned = srcCleaned.replaceAll('src="', "");
+          srcCleaned = srcCleaned.replace(/^["'\(\[](.*?)["'\)\]]$/, "$1");
+          if (srcCleaned.match(ChatResolver.videoReg) || srcCleaned.match(ChatResolver.videoRegBase64)) {
+            if (!videos.includes(srcCleaned) && !srcCleaned.includes("alt=")) {
+              videos.push(srcCleaned);
+            }
+          }
+        }
+
         chatData.flags ??= {};
-        chatData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO };
+        chatData.flags["chat-media"] = {
+          urls: videos.toString(),
+          subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO,
+        };
 
         chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
         chatData.speaker = { alias: alias, scene: game.user.viewedScene };
@@ -103,40 +143,10 @@ export class ChatResolver {
     const message = messageB.content ? messageB.content : messageB;
 
     if (!messageData) {
-      return;
+      return message;
     }
     if (!messageData.flags) {
-      if (
-        chatMessage?.content &&
-        (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
-        $(chatMessage.content)?.find(".chat-media-image")
-      ) {
-        messageData.flags ??= {};
-        messageData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
-
-        messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
-      }
-      // else {
-      // 	return message;
-      // }
-    }
-    if (!messageData) {
-      return;
-    }
-    if (!messageData.flags) {
-      if (
-        chatMessage?.content &&
-        (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
-        $(chatMessage.content)?.find(".chat-media-image")
-      ) {
-        messageData.flags ??= {};
-        messageData.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
-
-        messageData.type = CONST.CHAT_MESSAGE_TYPES.IC;
-      }
-      // else {
-      // 	return message;
-      // }
+      return message;
     }
     switch (messageData.flags["chat-media"]?.subType) {
       case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {

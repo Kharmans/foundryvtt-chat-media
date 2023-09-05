@@ -1,3 +1,8 @@
+### 3.3.5 
+
+- Manage exception 
+- add flags for urls on chat data 
+
 ### 3.3.4
 
 - patch null pointer message data eception
