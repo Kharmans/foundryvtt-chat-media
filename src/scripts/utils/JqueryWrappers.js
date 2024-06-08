@@ -9,7 +9,7 @@ export const removeClass = (parentNode, classString) => parentNode.removeClass(c
 export const addClass = (parentNode, classString) => parentNode.addClass(classString);
 export const remove = (node) => node.remove();
 export const attr = (node, attrId, attrValue = undefined) =>
-  attrValue ? node.attr(attrId, attrValue) : node.attr(attrId);
+    attrValue ? node.attr(attrId, attrValue) : node.attr(attrId);
 export const removeAttr = (node, attrId) => node.removeAttr(attrId);
 export const focus = (node) => node.focus();
 export const scrollBottom = (node) => node.animate({ scrollTop: node.height() });
