@@ -5,7 +5,7 @@
 ### 3.3.5 
 
 - Manage exception 
-- add flags for urls on chat data 
+- add flags for urls on chat data  https://github.com/p4535992/foundryvtt-chat-media/issues/2
 
 ### 3.3.4
 
