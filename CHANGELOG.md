@@ -1,10 +1,14 @@
+### 12.0.0
+
+- Full v12 compatibility
+
 ### 3.3.6
 
 - Add v12 compatibility
 
-### 3.3.5 
+### 3.3.5
 
-- Manage exception 
+- Manage exception
 - add flags for urls on chat data  https://github.com/p4535992/foundryvtt-chat-media/issues/2
 
 ### 3.3.4

@@ -3,7 +3,7 @@
     "name": "chat-media",
     "title": "Chat Media",
     "description": "Extends chat functionality with image and video support.",
-    "version": "3.3.6",
+    "version": "12.0.0",
     "authors": [
         {
             "name": "Marian#8010",
@@ -22,20 +22,7 @@
             "email": ""
         }
     ],
-    "type": "module",
     "socket": true,
-    "includes": [
-        "./assets/**",
-        "./lang/**",
-        "./languages/**",
-        "./scripts/**",
-        "./styles/**",
-        "./templates/**",
-        "./module.json",
-        "./README.md",
-        "./icons/**",
-        "./packs/**"
-    ],
     "media": [
         {
             "type": "icon",
@@ -58,18 +45,17 @@
         }
     ],
     "packs": [],
-    "systems": [],
     "scripts": [],
     "esmodules": ["module.js"],
     "styles": ["styles/chat-media.css", "styles/chat-message.css", "styles/spinner.css"],
     "compatibility": {
-        "minimum": 11,
-        "verified": 11,
+        "minimum": 12,
+        "verified": 12,
         "maximum": 12
     },
     "url": "https://github.com/p4535992/foundryvtt-chat-media",
-    "manifest": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/3.3.6/module.json",
-    "download": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/3.3.6/module.zip",
+    "manifest": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/12.0.0/module.json",
+    "download": "https://github.com/p4535992/foundryvtt-chat-media/releases/download/12.0.0/module.zip",
     "readme": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/README.md",
     "changelog": "https://github.com/p4535992/foundryvtt-chat-media/blob/master/CHANGELOG.md",
     "bugs": "https://github.com/p4535992/foundryvtt-chat-media/issues",
