@@ -1,3 +1,7 @@
+### 12.0.1
+
+- Bug fix: https://github.com/p4535992/foundryvtt-chat-media/issues/4
+
 ### 12.0.0
 
 - Full v12 compatibility
