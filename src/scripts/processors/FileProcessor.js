@@ -18,8 +18,16 @@ const DOM_PARSER = new DOMParser();
 
 let imageQueue = [];
 
-const isFileImage = (file) => file.type && file.type.startsWith("image/");
-const isFileVideo = (file) => file.type && file.type.startsWith("video/");
+const isFileImage = (file) => {
+    // Handle both File objects and DataTransferItem objects
+    const type = file.type || (file.kind === "file" && file.type);
+    return type && type.startsWith("image/");
+};
+const isFileVideo = (file) => {
+    // Handle both File objects and DataTransferItem objects
+    const type = file.type || (file.kind === "file" && file.type);
+    return type && type.startsWith("video/");
+};
 
 const createImagePreview = ({ imageSrc, id }) =>
     create(
@@ -63,11 +71,20 @@ const uploadImage = async (saveValue) => {
 
         const uploadLocation = getSetting("uploadLocation");
 
-        const imageLocation = await FilePicker.upload(ORIGIN_FOLDER, uploadLocation, newImage, {}, { notify: false });
+        // Use namespaced FilePicker for v13+ compatibility
+        const FilePickerImpl = foundry.applications?.apps?.FilePicker?.implementation || FilePicker;
+        const imageLocation = await FilePickerImpl.upload(
+            ORIGIN_FOLDER,
+            uploadLocation,
+            newImage,
+            {},
+            { notify: false },
+        );
 
-        if (!imageLocation || !imageLocationPicker.UploadResult?.path) return saveValue.imageSrc;
-        return imageLocationPicker.UploadResult?.path;
+        if (!imageLocation || !imageLocation.path) return saveValue.imageSrc;
+        return imageLocation.path;
     } catch (e) {
+        console.error("Chat Media: Error uploading image:", e);
         return saveValue.imageSrc;
     }
 };
@@ -119,18 +136,35 @@ export const processFiles = (files, sidebar) => {
     }
 };
 
-export const processDropAndPasteImages = (eventData, sidebar) => {
+export const processDropAndPasteImages = async (eventData, sidebar) => {
+    console.log("Chat Media: processDropAndPasteImages called", { eventData, sidebar });
+
+    if (!eventData) {
+        console.log("Chat Media: No eventData provided");
+        return;
+    }
+
     const extractUrlFromEventData = (eventData) => {
-        const html = eventData.getData("text/html");
-        if (!html) return null;
+        try {
+            const html = eventData.getData("text/html");
+            console.log("Chat Media: HTML data from event:", html);
+            if (!html) return null;
 
-        const images = DOM_PARSER.parseFromString(html, "text/html").querySelectorAll("img");
-        if (!images || !images.length) return null;
+            const images = DOM_PARSER.parseFromString(html, "text/html").querySelectorAll("img");
+            if (!images || !images.length) return null;
 
-        const imageUrls = [...images].map((img) => img.src);
-        const imagesContainRestrictedDomains = imageUrls.some((iu) => RESTRICTED_DOMAINS.some((rd) => iu.includes(rd)));
-        return imagesContainRestrictedDomains ? null : imageUrls;
+            const imageUrls = [...images].map((img) => img.src);
+            const imagesContainRestrictedDomains = imageUrls.some((iu) =>
+                RESTRICTED_DOMAINS.some((rd) => iu.includes(rd)),
+            );
+            console.log("Chat Media: Found image URLs:", imageUrls, "Restricted:", imagesContainRestrictedDomains);
+            return imagesContainRestrictedDomains ? null : imageUrls;
+        } catch (error) {
+            console.log("Chat Media: Error extracting URL from event data:", error);
+            return null;
+        }
     };
+
     const urlsFromEventDataHandler = async (urls) => {
         for (let i = 0; i < urls.length; i++) {
             const url = urls[i];
@@ -141,32 +175,68 @@ export const processDropAndPasteImages = (eventData, sidebar) => {
 
     const urls = extractUrlFromEventData(eventData);
     if (urls && urls.length) {
-        return urlsFromEventDataHandler(urls);
+        console.log("Chat Media: Processing URLs:", urls);
+        return await urlsFromEventDataHandler(urls);
     }
 
     const extractFilesFromEventData = (eventData) => {
-        const items = eventData.items;
-        const files = [];
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            const isImage = isFileImage(item);
-            const isVideo = isFileVideo(item);
-            if (!isImage && !isVideo) {
-                continue;
-            }
-            const file = item.getAsFile();
-            if (!file) {
-                continue;
-            }
-            files.push(file);
+        console.log("Chat Media: Extracting files from event data", eventData);
+
+        // Check if items exist
+        if (!eventData.items) {
+            console.log("Chat Media: No items in event data");
+            return [];
         }
+
+        const items = eventData.items;
+        console.log("Chat Media: Event data items:", items, "Length:", items.length);
+        const files = [];
+
+        try {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                console.log("Chat Media: Processing item:", item, "Kind:", item.kind, "Type:", item.type);
+
+                // Check if it's a file
+                if (item.kind !== "file") {
+                    console.log("Chat Media: Item is not a file, skipping");
+                    continue;
+                }
+
+                const isImage = isFileImage(item);
+                const isVideo = isFileVideo(item);
+                console.log("Chat Media: Is image:", isImage, "Is video:", isVideo);
+
+                if (!isImage && !isVideo) {
+                    console.log("Chat Media: Item is not an image or video, skipping");
+                    continue;
+                }
+
+                const file = item.getAsFile();
+                console.log("Chat Media: Got file:", file);
+
+                if (!file) {
+                    console.log("Chat Media: Could not get file from item");
+                    continue;
+                }
+
+                files.push(file);
+            }
+        } catch (error) {
+            console.error("Chat Media: Error processing event data items:", error);
+        }
+
+        console.log("Chat Media: Final files array:", files);
         return files;
     };
 
     const filesExtracted = extractFilesFromEventData(eventData);
     if (filesExtracted && filesExtracted.length) {
-        return processFiles(filesExtracted, sidebar);
+        console.log("Chat Media: Processing files:", filesExtracted);
+        return await processFiles(filesExtracted, sidebar);
     }
+
+    console.log("Chat Media: No files or URLs found to process");
 };
 
 export const getImageQueue = () => imageQueue;

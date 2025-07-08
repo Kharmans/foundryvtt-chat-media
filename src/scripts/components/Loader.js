@@ -25,7 +25,11 @@ const toggleSpinner = (chatForm, toggle) => {
 };
 
 export const getUploadingStates = (sidebar) => {
-    const chatForm = find("#chat-form", sidebar);
+    // Try to find chat-form first (v12), fallback to sidebar (v13)
+    let chatForm = find("#chat-form", sidebar);
+    if (!chatForm[0]) {
+        chatForm = sidebar;
+    }
     const chat = find("#chat-message", sidebar);
 
     return {

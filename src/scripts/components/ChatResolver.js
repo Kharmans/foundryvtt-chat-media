@@ -32,11 +32,11 @@ export class ChatResolver {
         cvideo: /(cvideo\s*)/gi,
     };
 
-    static imageReg = /http((.*)\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|GIF|PNG|JPG|JPEG|WEBP|SVG|PSD|BMP|TIF))/gi;
+    static imageReg = /https?:\/\/[^\s]+\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|avif)(\?[^\s]*)?/gi;
     static imageRegBase64 = /(data:image\/[^;]+;base64[^"]+)/gi;
     static imageMarkdownReg = /^(cimage\s+)\s*(.+?)\s*/gi;
 
-    static videoReg = /http((.*)\.(i:webm|mp4|WEBM|MP$))/gi;
+    static videoReg = /https?:\/\/[^\s]+\.(webm|mp4|mov|avi|mkv)(\?[^\s]*)?/gi;
     static videoRegBase64 = /(data:video\/[^;]+;base64[^"]+)/gi;
     static videoMarkdownReg = /^(cvideo\s+)\s*(.+?)\s*/gi;
 
@@ -83,7 +83,7 @@ export class ChatResolver {
                     subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE,
                 };
 
-                chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+                chatData.type = CONST.CHAT_MESSAGE_STYLES?.IC || CONST.CHAT_MESSAGE_TYPES?.IC;
                 chatData.speaker = { alias: alias, scene: game.user.viewedScene };
                 chatData.content = match[3].replace(/\n/g, "<br>");
                 // Fall through...
@@ -122,7 +122,7 @@ export class ChatResolver {
                     subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO,
                 };
 
-                chatData.type = CONST.CHAT_MESSAGE_TYPES.IC;
+                chatData.type = CONST.CHAT_MESSAGE_STYLES?.IC || CONST.CHAT_MESSAGE_TYPES?.IC;
                 chatData.speaker = { alias: alias, scene: game.user.viewedScene };
                 chatData.content = match[3].replace(/\n/g, "<br>");
                 // Fall through...
@@ -254,6 +254,35 @@ export class ChatResolver {
         return videoTemplate;
     }
 
+    static onRenderChatMessageHTML(chatMessage, html, messageData) {
+        if (!messageData.message.flags) {
+            if (
+                chatMessage?.content &&
+                (chatMessage?.content.startsWith("cimage") || chatMessage?.content.startsWith("cvideo")) &&
+                html.querySelector(".chat-media-image")
+            ) {
+                messageData.message.flags ??= {};
+                messageData.message.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
+
+                messageData.message.type = CONST.CHAT_MESSAGE_STYLES?.IC || CONST.CHAT_MESSAGE_TYPES?.IC;
+            }
+        }
+
+        switch (messageData.message.flags["chat-media"]?.subType) {
+            case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE: {
+                html.classList.add("chat-media-image");
+                return;
+            }
+            case ChatResolver.CHAT_MESSAGE_SUB_TYPES.CVIDEO: {
+                html.classList.add("chat-media-image");
+                return;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
     static onRenderChatMessage(chatMessage, html, messageData) {
         if (!messageData.message.flags) {
             if (
@@ -264,7 +293,7 @@ export class ChatResolver {
                 messageData.message.flags ??= {};
                 messageData.message.flags["chat-media"] = { subType: ChatResolver.CHAT_MESSAGE_SUB_TYPES.CIMAGE };
 
-                messageData.message.type = CONST.CHAT_MESSAGE_TYPES.IC;
+                messageData.message.type = CONST.CHAT_MESSAGE_STYLES?.IC || CONST.CHAT_MESSAGE_TYPES?.IC;
             }
         }
 
