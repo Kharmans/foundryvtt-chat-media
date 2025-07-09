@@ -49,7 +49,7 @@
     "esmodules": ["module.js"],
     "styles": ["styles/chat-media.css", "styles/chat-message.css", "styles/spinner.css"],
     "compatibility": {
-        "minimum": 12,
+        "minimum": 13,
         "verified": 13,
         "maximum": 13
     },
