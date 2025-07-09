@@ -1,3 +1,7 @@
+### 13.0.0
+
+- Update for v13, but still compatible with v12, ty very much to @ThreeHats for the big wotk done on the PR https://github.com/p4535992/foundryvtt-chat-media/pull/7
+
 ### 12.0.1
 
 - Bug fix: https://github.com/p4535992/foundryvtt-chat-media/issues/4
