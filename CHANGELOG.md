@@ -1,3 +1,7 @@
+### 13.0.1
+
+- Add portugese language ty to @Kharmans https://github.com/p4535992/foundryvtt-chat-media/pull/8
+
 ### 13.0.0
 
 - Update for v13, but still compatible with v12, ty very much to @ThreeHats for the big wotk done on the PR https://github.com/p4535992/foundryvtt-chat-media/pull/7
