@@ -1,0 +1,14 @@
+{
+    "I18N.LANGUAGE": "Português (Brasil)",
+    "I18N.MAINTAINERS": "Kharmans",
+
+    "chat-media.uploadButtonTitle": "Enviar uma Imagem",
+    "chat-media.unableToLoadImage": "Não foi possível enviar a imagem",
+    "chat-media.uploadPermissions": "Você não tem privilégios de envio",
+
+    "chat-media.uploadLocation": "Local do Envio",
+    "chat-media.uploadLocationHint": "[Entrará em vigor após a reiniciar o mundo] Onde as imagens devem ser enviadas.",
+
+    "chat-media.uploadButton": "Botão de Envio",
+    "chat-media.uploadButtonHint": "[Entrará em vigor após a reiniciar o mundo] Exibe o botão de envio."
+}
