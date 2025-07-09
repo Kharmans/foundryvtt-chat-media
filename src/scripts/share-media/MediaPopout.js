@@ -4,7 +4,10 @@ import { getVideoType, isVideo } from "../lib/lib.js";
 /**
  * Extend the default Image Popout to handle videos
  */
-export default class MediaPopout extends ImagePopout {
+// Use namespaced ImagePopout for v13+ compatibility
+const ImagePopoutImpl = foundry.applications?.apps?.ImagePopout || ImagePopout;
+
+export default class MediaPopout extends ImagePopoutImpl {
     video;
 
     constructor(src, options = {}) {

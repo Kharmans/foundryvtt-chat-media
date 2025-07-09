@@ -2,11 +2,13 @@ import { ORIGIN_FOLDER, i18n } from "./Utils.js";
 
 export const createUploadFolder = async (uploadLocation = "") => {
     const location = uploadLocation || getSetting("uploadLocation");
+    // Use namespaced FilePicker for v13+ compatibility
+    const FilePickerImpl = foundry.applications?.apps?.FilePicker?.implementation || FilePicker;
     try {
-        const folderLocation = await FilePicker.browse(ORIGIN_FOLDER, location);
-        if (folderLocation.target === ".") await FilePicker.createDirectory(ORIGIN_FOLDER, location, {});
+        const folderLocation = await FilePickerImpl.browse(ORIGIN_FOLDER, location);
+        if (folderLocation.target === ".") await FilePickerImpl.createDirectory(ORIGIN_FOLDER, location, {});
     } catch (e) {
-        await FilePicker.createDirectory(ORIGIN_FOLDER, location, {});
+        await FilePickerImpl.createDirectory(ORIGIN_FOLDER, location, {});
     }
 };
 

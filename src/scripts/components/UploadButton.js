@@ -1,4 +1,4 @@
-import { addClass, append, create, find, on, trigger } from "../utils/JqueryWrappers.js";
+import { addClass, append, before, create, find, on, trigger } from "../utils/JqueryWrappers.js";
 import { i18n, userCanUpload } from "../utils/Utils.js";
 import { processFiles } from "../processors/FileProcessor.js";
 import { getSetting } from "../utils/Settings.js";
@@ -43,13 +43,24 @@ export const initUploadButton = (sidebar) => {
         append(controlButtons, uploadButton);
         append(controlButtons, hiddenUploadInput);
     } else {
-        // Players don't have buttons
-        const chatControls = find("#chat-controls", sidebar);
-        const newControlButtons = create('<div class="chat-media-control-buttons-p"></div>');
+        // Try to find chat-controls (v12), fallback to creating controls near chat message (v13)
+        let chatControls = find("#chat-controls", sidebar);
 
-        append(newControlButtons, uploadButton);
-        append(newControlButtons, hiddenUploadInput);
-        append(chatControls, newControlButtons);
+        if (chatControls[0]) {
+            const newControlButtons = create('<div class="chat-media-control-buttons-p"></div>');
+            append(newControlButtons, uploadButton);
+            append(newControlButtons, hiddenUploadInput);
+            append(chatControls, newControlButtons);
+        } else {
+            // v13: create controls container and place it near the chat message
+            const chatMessage = find("#chat-message", sidebar);
+            if (chatMessage[0]) {
+                const newControlButtons = create('<div class="chat-media-control-buttons-p"></div>');
+                append(newControlButtons, uploadButton);
+                append(newControlButtons, hiddenUploadInput);
+                before(chatMessage, newControlButtons);
+            }
+        }
     }
 
     setupEvents(uploadButton, hiddenUploadInput, sidebar);
