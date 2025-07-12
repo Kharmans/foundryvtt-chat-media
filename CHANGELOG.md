@@ -1,3 +1,8 @@
+### 13.0.2
+
+- clean up, style fixes, video playback and settings, ideas ty to @ThreeHats https://github.com/p4535992/foundryvtt-chat-media/pull/10
+
+
 ### 13.0.1
 
 - Add portugese language ty to @Kharmans https://github.com/p4535992/foundryvtt-chat-media/pull/8
