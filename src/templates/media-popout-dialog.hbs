@@ -1,9 +1,10 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
     {{#if isVideo}}
         <video
-        	autoplay
+            {{#if autoplay}}autoplay{{/if}}
             {{#if isLoop}}loop{{/if}}
             {{#if isMuted}}muted{{/if}}
+            {{#if controls}}controls{{/if}}
             style="width: 100%">
             <source src="{{video}}" type="{{videoType}}">
         </video>
