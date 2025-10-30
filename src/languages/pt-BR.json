@@ -7,8 +7,20 @@
     "chat-media.uploadPermissions": "Você não tem privilégios de envio",
 
     "chat-media.uploadLocation": "Local do Envio",
-    "chat-media.uploadLocationHint": "[Entrará em vigor após a reiniciar o mundo] Onde as imagens devem ser enviadas.",
+    "chat-media.uploadLocationHint": "Onde as imagens devem ser enviadas. Necessário reiniciar o mundo.",
 
     "chat-media.uploadButton": "Botão de Envio",
-    "chat-media.uploadButtonHint": "[Entrará em vigor após a reiniciar o mundo] Exibe o botão de envio."
+    "chat-media.uploadButtonHint": "Exibe o botão de envio. Necessário reiniciar o mundo.",
+
+    "chat-media.videoAutoplay": "Reprodução Automática de Vídeo",
+    "chat-media.videoAutoplayHint": "Reproduza vídeos automaticamente quando eles aparecerem no chat.",
+  
+    "chat-media.videoLoop": "Loop de Vídeo",
+    "chat-media.videoLoopHint": "Mantenha os vídeos em loop continuamente.",
+  
+    "chat-media.videoMuted": "Vídeo Silenciado",
+    "chat-media.videoMutedHint": "Por padrão, os vídeos iniciam com o som desativado.",
+    
+    "chat-media.videoControls": "Controles de Vídeo",
+    "chat-media.videoControlsHint": "Mostra os controles do player de vídeo."
 }
